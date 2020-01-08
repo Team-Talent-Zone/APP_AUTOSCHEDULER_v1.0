@@ -1,2 +1,2 @@
-# APP_NOTIFICATIONS_AUTOSCHEDULER
-This is java code has a features to send email notifications to clients automatically by scheduling a timer .
+# APP_AUTOSCHEDULER
+This is plain java code has a features to send email notifications to the clients automatically as per the scheduled Jobs .
