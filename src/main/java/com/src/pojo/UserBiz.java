@@ -1,6 +1,8 @@
-package com.src.entity;
+package com.src.pojo;
 
-public class UserBizEntity   {
+import java.io.Serializable;
+
+public class UserBiz implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,10 @@
-package com.src.entity;
+package com.src.pojo;
 
-public class UserRoleEntity   {
+import java.io.Serializable;
 
+public class UserRole implements Serializable  {
+ 
+	private static final long serialVersionUID = 1L;
 
 	private Integer roleId;
 

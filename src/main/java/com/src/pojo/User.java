@@ -1,8 +1,9 @@
-package com.src.entity;
+package com.src.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserEntity {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,9 +31,9 @@ public class UserEntity {
 
 	private String updatedon;
 
-	private ArrayList<UserRoleEntity> userroles;
+	private ArrayList<UserRole> userroles;
 
-	private ArrayList<UserBizEntity> userbizdetails;
+	private ArrayList<UserBiz> userbizdetails;
 
 	public Integer getUserId() {
 		return userId;
@@ -130,19 +131,19 @@ public class UserEntity {
 		this.updatedon = updatedon;
 	}
 
-	public ArrayList<UserRoleEntity> getUserroles() {
+	public ArrayList<UserRole> getUserroles() {
 		return userroles;
 	}
 
-	public void setUserroles(ArrayList<UserRoleEntity> userroles) {
+	public void setUserroles(ArrayList<UserRole> userroles) {
 		this.userroles = userroles;
 	}
 
-	public ArrayList<UserBizEntity> getUserbizdetails() {
+	public ArrayList<UserBiz> getUserbizdetails() {
 		return userbizdetails;
 	}
 
-	public void setUserbizdetails(ArrayList<UserBizEntity> userbizdetails) {
+	public void setUserbizdetails(ArrayList<UserBiz> userbizdetails) {
 		this.userbizdetails = userbizdetails;
 	}
 

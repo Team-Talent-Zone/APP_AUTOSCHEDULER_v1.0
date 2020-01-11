@@ -11,8 +11,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import com.src.constant.Config;
-import com.src.entity.UserEntity;
-import com.src.entity.UtilEntity;
+import com.src.pojo.LookUpTemplate;
+import com.src.pojo.User;
+import com.src.pojo.Util;
 
 public class UserNotify extends AbstractManager {
 
@@ -26,6 +27,10 @@ public class UserNotify extends AbstractManager {
 		}
 	}
 
+	public static void main(String arg[]) throws JSONException {
+		WhenUserNotLoginYet();
+	}
+
 	/*
 	 * Method send email notification to the user who has not login yet after reset
 	 * password.
@@ -33,25 +38,30 @@ public class UserNotify extends AbstractManager {
 
 	private static void WhenUserNotLoginYet() throws JSONException {
 
-		ResponseEntity<ArrayList<UserEntity>> usResponseEntities = restTemplate.exchange(
+		ResponseEntity<ArrayList<User>> usResponseEntities = restTemplate.exchange(
 				Config.RESTSERVICE_URL_DEV + "/getAllUsers/", HttpMethod.GET, getHttpEntityWithHeaders(),
-				new ParameterizedTypeReference<ArrayList<UserEntity>>() {
+				new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 
-		for (UserEntity userEntity : usResponseEntities.getBody()) {
-			UtilEntity utilEntity = CreateNewUtilEntity(userEntity.getUsername(),
-					Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET, Config.EMAIL_KEY_WHENUSERNOTLOGINYET);
+		ResponseEntity<LookUpTemplate> rltemplateObject = restTemplate.exchange(
+				Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
+						+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
+				HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
+				});
+
+		for (User userEntity : usResponseEntities.getBody()) {
+			Util utilEntity = CreateNewUtilEntity(userEntity.getUsername(), Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET,
+					rltemplateObject.getBody().getUrl().toString());
 
 			JSONArray jsonArray = new JSONArray();
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("fullName", userEntity.getFirstname() + userEntity.getLastname());
 			jsonArray.put(jsonObj);
 			utilEntity.setJsonArray(jsonArray);
-			HttpEntity<UtilEntity> requestHeaderWithObject = new HttpEntity<UtilEntity>(utilEntity, getHeaders());
 
-			ResponseEntity<UtilEntity> responseEntity = restTemplate.exchange(
-					Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.GET, requestHeaderWithObject,
-					UtilEntity.class);
+			HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(utilEntity, getHeaders());
+			ResponseEntity<Util> responseEntity = restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/",
+					HttpMethod.POST, requestHeaderWithObject, Util.class);
 
 			if (responseEntity.getBody().isStatus() == false) {
 				NotifyToAdministrator(userEntity, responseEntity);

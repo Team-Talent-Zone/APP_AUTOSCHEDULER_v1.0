@@ -16,8 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.src.constant.Config;
-import com.src.entity.UserEntity;
-import com.src.entity.UtilEntity;
+import com.src.pojo.User;
+import com.src.pojo.Util;
 
 public class AbstractManager {
 
@@ -38,20 +38,20 @@ public class AbstractManager {
 		return headers;
 	}
 
-	public static UtilEntity CreateNewUtilEntity(String emailToUser, String emailSubject, String shortkey) {
-		UtilEntity utilEntity = new UtilEntity();
+	public static Util CreateNewUtilEntity(String emailToUser, String emailSubject, String templateURL) {
+		Util utilEntity = new Util();
 		utilEntity.setFromUser(Config.EMAIL_SENT_FROMUSER);
 		utilEntity.setToUser(emailToUser);
 		utilEntity.setSubject(emailSubject);
-		utilEntity.setShortkey(shortkey);
+		utilEntity.setTemplateURL(templateURL);
 		return utilEntity;
 	}
 
-	public static void NotifyToAdministrator(UserEntity userEntity, ResponseEntity<UtilEntity> responseEntity)
+	public static void NotifyToAdministrator(User userEntity, ResponseEntity<Util> responseEntity)
 			throws JSONException {
 
-		UtilEntity newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_KEY_SOMETHINGWENTWRONG);
+		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER, Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG,
+				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
 
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObj = new JSONObject();
@@ -61,9 +61,9 @@ public class AbstractManager {
 		jsonArray.put(jsonObj);
 		newUtilEntity.setJsonArray(jsonArray);
 
-		HttpEntity<UtilEntity> requestHeaderWithObject = new HttpEntity<UtilEntity>(newUtilEntity, getHeaders());
-		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.POST,
-				requestHeaderWithObject, UtilEntity.class);
+		HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(newUtilEntity, getHeaders());
+		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.POST, requestHeaderWithObject,
+				Util.class);
 
 	}
 }

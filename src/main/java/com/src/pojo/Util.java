@@ -1,10 +1,12 @@
-package com.src.entity;
+package com.src.pojo;
 
 import java.io.Serializable;
 
 import org.json.JSONArray;
 
-public class UtilEntity implements Serializable {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Util implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,14 +18,15 @@ public class UtilEntity implements Serializable {
 
 	private String body;
 
+	@JsonIgnore
 	private JSONArray jsonArray;
 
-	private String shortkey;
-	
+	private String templateURL;
+
 	private boolean isStatus;
-	
+
 	private String lastServerResponse;
-	
+
 	public String getLastServerResponse() {
 		return lastServerResponse;
 	}
@@ -72,10 +75,6 @@ public class UtilEntity implements Serializable {
 		this.body = body;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public JSONArray getJsonArray() {
 		return jsonArray;
 	}
@@ -84,12 +83,12 @@ public class UtilEntity implements Serializable {
 		this.jsonArray = jsonArray;
 	}
 
-	public String getShortkey() {
-		return shortkey;
+	public String getTemplateURL() {
+		return templateURL;
 	}
 
-	public void setShortkey(String shortkey) {
-		this.shortkey = shortkey;
+	public void setTemplateURL(String templateURL) {
+		this.templateURL = templateURL;
 	}
 
 }
