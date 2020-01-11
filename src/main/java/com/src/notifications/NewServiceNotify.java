@@ -2,7 +2,7 @@ package com.src.notifications;
 
 public class NewServiceNotify {
 
-	public static void triggerNewServiceRelatedAutoGenEmail() {
+	public static void TriggerNewServiceRelatedAutoGenEmail() {
 		
 	}
 }

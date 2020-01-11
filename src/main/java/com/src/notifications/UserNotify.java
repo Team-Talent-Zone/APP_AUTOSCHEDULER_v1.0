@@ -17,6 +17,7 @@ import com.src.scheduler.ConfigConstant;
 
 public class UserNotify extends AbstractManager {
 
+	
 	public static void TriggerUserRelatedAutoGenEmail() {
 		try {
 			WhenFUProfileNotCompleted();
