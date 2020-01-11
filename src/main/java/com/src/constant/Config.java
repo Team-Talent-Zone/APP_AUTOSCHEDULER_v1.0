@@ -1,6 +1,6 @@
-package com.src.scheduler;
+package com.src.constant;
 
-public class ConfigConstant {
+public class Config {
 
 	public final static String RESTSERVICE_URL_DEV = "http://localhost:8080/RestAPI";
 
