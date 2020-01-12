@@ -60,11 +60,11 @@ public class UserNotify extends AbstractManager {
 			utilEntity.setJsonArray(jsonArray);
 
 			HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(utilEntity, getHeaders());
-			ResponseEntity<Util> responseEntity = restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/",
-					HttpMethod.POST, requestHeaderWithObject, Util.class);
+			ResponseEntity<Util> responseEntity = restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/autoSendEmail/",
+					HttpMethod.PUT, requestHeaderWithObject, Util.class);
 
 			if (responseEntity.getBody().isStatus() == false) {
-				NotifyToAdministrator(userEntity, responseEntity);
+				NotifyToCSSTAdmin(userEntity, responseEntity);
 				break;
 			}
 		}

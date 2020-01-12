@@ -47,7 +47,7 @@ public class AbstractManager {
 		return utilEntity;
 	}
 
-	public static void NotifyToAdministrator(User userEntity, ResponseEntity<Util> responseEntity)
+	public static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity)
 			throws JSONException {
 
 		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER, Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG,
@@ -62,7 +62,7 @@ public class AbstractManager {
 		newUtilEntity.setJsonArray(jsonArray);
 
 		HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(newUtilEntity, getHeaders());
-		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.POST, requestHeaderWithObject,
+		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/autoSendEmail/", HttpMethod.PUT, requestHeaderWithObject,
 				Util.class);
 
 	}
