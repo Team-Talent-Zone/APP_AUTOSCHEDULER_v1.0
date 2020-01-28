@@ -20,38 +20,34 @@ public class UserNotify extends AbstractManager {
 	public static void TriggerUserRelatedAutoGenEmail() {
 		try {
 			WhenFUProfileNotCompleted();
-			WhenUserNotLoginYet();
+			WhenUserNotLoggedInYet();
 		} catch (JSONException jsonException) {
 			loggerAbstract.error(
 					"UserNotify : triggerUserRelatedAutoGenEmail method : JSONException " + jsonException.toString());
 		}
 	}
 
-	public static void main(String arg[]) throws JSONException {
-		WhenUserNotLoginYet();
-	}
-
 	/*
-	 * Method send email notification to the user who has not login yet after reset
-	 * password.
+	 * Below method will send the email notification to the users who has not logged-in yet after reset
+	 * the password.
 	 */
 
-	private static void WhenUserNotLoginYet() throws JSONException {
+	private static void WhenUserNotLoggedInYet() throws JSONException {
 
-		ResponseEntity<ArrayList<User>> usResponseEntities = restTemplate.exchange(
+		ResponseEntity<ArrayList<User>> listofUsersNotLoggedIn = restTemplate.exchange(
 				Config.RESTSERVICE_URL_DEV + "/getAllUsers/", HttpMethod.GET, getHttpEntityWithHeaders(),
 				new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 
-		ResponseEntity<LookUpTemplate> rltemplateObject = restTemplate.exchange(
+		ResponseEntity<LookUpTemplate> lookUpTemplate = restTemplate.exchange(
 				Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
 						+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
 				HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
 				});
 
-		for (User userEntity : usResponseEntities.getBody()) {
+		for (User userEntity : listofUsersNotLoggedIn.getBody()) {
 			Util utilEntity = CreateNewUtilEntity(userEntity.getUsername(), Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET,
-					rltemplateObject.getBody().getUrl().toString());
+					lookUpTemplate.getBody().getUrl().toString());
 
 			JSONArray jsonArray = new JSONArray();
 			JSONObject jsonObj = new JSONObject();
@@ -60,11 +56,12 @@ public class UserNotify extends AbstractManager {
 			utilEntity.setJsonArray(jsonArray);
 
 			HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(utilEntity, getHeaders());
-			ResponseEntity<Util> responseEntity = restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/autoSendEmail/",
-					HttpMethod.PUT, requestHeaderWithObject, Util.class);
+			ResponseEntity<Util> emailResponseEntity = restTemplate.exchange(
+					Config.RESTSERVICE_URL_DEV + "/autoSendEmail/", HttpMethod.PUT, requestHeaderWithObject,
+					Util.class);
 
-			if (responseEntity.getBody().isStatus() == false) {
-				NotifyToCSSTAdmin(userEntity, responseEntity);
+			if (emailResponseEntity.getBody().getLastReturnCode() != 250) {
+				NotifyToCSSTAdmin(userEntity, emailResponseEntity);
 				break;
 			}
 		}

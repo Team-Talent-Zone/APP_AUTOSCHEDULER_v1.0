@@ -23,7 +23,7 @@ public class Util implements Serializable  {
 
 	private String templateURL;
 
-	private boolean isStatus;
+	private int lastReturnCode;
 
 	private String lastServerResponse;
 
@@ -35,12 +35,12 @@ public class Util implements Serializable  {
 		this.lastServerResponse = lastServerResponse;
 	}
 
-	public boolean isStatus() {
-		return isStatus;
+	public int getLastReturnCode() {
+		return lastReturnCode;
 	}
 
-	public void setStatus(boolean isStatus) {
-		this.isStatus = isStatus;
+	public void setLastReturnCode(int lastReturnCode) {
+		this.lastReturnCode = lastReturnCode;
 	}
 
 	public String getFromUser() {
