@@ -36,7 +36,7 @@ public class UserNotify extends AbstractManager {
 				});
 
 		if (listofUsersNotLoggedIn != null) {
-
+			
 			ResponseEntity<LookUpTemplate> lookUpTemplate = restTemplate.exchange(
 					Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
 							+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,

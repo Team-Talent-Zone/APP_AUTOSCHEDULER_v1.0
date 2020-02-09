@@ -52,7 +52,8 @@ public class AbstractManager {
 	protected static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
 
 		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,"eng");
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,
+				Config.DEFAULT_PREFEREDLANG);
 
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObj = new JSONObject();
