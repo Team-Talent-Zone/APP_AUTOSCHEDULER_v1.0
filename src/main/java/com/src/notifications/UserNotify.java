@@ -68,8 +68,8 @@ public class UserNotify extends AbstractManager {
 					notification.setUserId(userEntity.getUserId());
 					notification.setSentby(Config.NOTIFICATION_SENTBY);
 					notification.setTemplateId(lookUpTemplate.getBody().getTemplateId());
-					HttpEntity<Util> requestHeaderWithUserNotificationObject = new HttpEntity<Util>(utilEntity,
-							getHeaders());
+					HttpEntity<UserNotification> requestHeaderWithUserNotificationObject = new HttpEntity<UserNotification>(
+							notification, getHeaders());
 					restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/saveUserNotification/", HttpMethod.POST,
 							requestHeaderWithUserNotificationObject, UserNotification.class);
 				}
