@@ -49,7 +49,8 @@ public class UserNotify extends AbstractManager {
 
 			for (User userEntity : listofUsersNotLoggedIn.getBody()) {
 				Util utilEntity = CreateNewUtilEntity(userEntity.getUsername(),
-						Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET, lookUpTemplate.getBody().getUrl().toString());
+						Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET, lookUpTemplate.getBody().getUrl().toString(),
+						userEntity.getPreferlang());
 
 				JSONArray jsonArray = new JSONArray();
 				JSONObject jsonObj = new JSONObject();

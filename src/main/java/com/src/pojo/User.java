@@ -30,6 +30,8 @@ public class User implements Serializable {
 	private String updateby;
 
 	private String updatedon;
+	
+	private String preferlang;
 
 	private ArrayList<UserRole> userroles;
 
@@ -149,6 +151,14 @@ public class User implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getPreferlang() {
+		return preferlang;
+	}
+
+	public void setPreferlang(String preferlang) {
+		this.preferlang = preferlang;
 	}
 
 }

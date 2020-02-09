@@ -38,19 +38,21 @@ public class AbstractManager {
 		return headers;
 	}
 
-	public static Util CreateNewUtilEntity(String emailToUser, String emailSubject, String templateURL) {
+	public static Util CreateNewUtilEntity(String emailToUser, String emailSubject, String templateURL,
+			String preferlang) {
 		Util utilEntity = new Util();
 		utilEntity.setFromuser(Config.EMAIL_SENT_FROMUSER_DEV);
 		utilEntity.setTouser(emailToUser);
 		utilEntity.setSubject(emailSubject);
 		utilEntity.setTemplateurl(templateURL);
+		utilEntity.setPreferlang(preferlang);
 		return utilEntity;
 	}
 
 	public static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
 
 		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,"eng");
 
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObj = new JSONObject();
