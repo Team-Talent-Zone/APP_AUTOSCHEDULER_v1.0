@@ -138,7 +138,7 @@
 			</activation>
 			<properties>
 				<sonar.host.url>
-					http://ec2-34-227-56-121.compute-1.amazonaws.com:9000
+					http://localhost:9000
 				</sonar.host.url>
 			</properties>
 		</profile>

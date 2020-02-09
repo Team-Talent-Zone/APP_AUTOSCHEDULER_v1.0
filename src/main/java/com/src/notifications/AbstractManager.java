@@ -29,7 +29,7 @@ public class AbstractManager {
 	}
 
 	public static HttpHeaders getHeaders() {
-		String plainCredentials = Config.REST_USERNAME + ":" + Config.REST_PWD;
+		String plainCredentials = Config.REST_USERNAME_DEV + ":" + Config.REST_PASSWORD_DEV;
 		String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
 
 		HttpHeaders headers = new HttpHeaders();
@@ -40,25 +40,23 @@ public class AbstractManager {
 
 	public static Util CreateNewUtilEntity(String emailToUser, String emailSubject, String templateURL) {
 		Util utilEntity = new Util();
-		utilEntity.setFromUser(Config.EMAIL_SENT_FROMUSER);
-		utilEntity.setToUser(emailToUser);
+		utilEntity.setFromuser(Config.EMAIL_SENT_FROMUSER_DEV);
+		utilEntity.setTouser(emailToUser);
 		utilEntity.setSubject(emailSubject);
-		utilEntity.setTemplateURL(templateURL);
+		utilEntity.setTemplateurl(templateURL);
 		return utilEntity;
 	}
 
 	public static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
 
-		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER, Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG,
-				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
+		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
 
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("fullName", userEntity.getFirstname() + " " + userEntity.getLastname());
-		jsonObj.put("lastServerResponse", responseEntity.getBody().getLastServerResponse());
-
+		jsonObj.put("firstName", userEntity.getFirstname() + " " + userEntity.getLastname());
 		jsonArray.put(jsonObj);
-		newUtilEntity.setJsonArray(jsonArray);
+		newUtilEntity.setJsonarray(jsonArray);
 
 		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(newUtilEntity, getHeaders());
 		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/autoSendEmail/", HttpMethod.PUT, emailResponseEntity,

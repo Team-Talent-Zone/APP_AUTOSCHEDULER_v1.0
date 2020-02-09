@@ -28,8 +28,8 @@ public class UserNotify extends AbstractManager {
 	}
 
 	/*
-	 * Below method will send the email notification to the users who has not logged-in yet after reset
-	 * the password.
+	 * Below method will send the email notification to the users who has not
+	 * logged-in yet after reset the password.
 	 */
 
 	private static void WhenUserNotLoggedInYet() throws JSONException {
@@ -39,30 +39,33 @@ public class UserNotify extends AbstractManager {
 				new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 
-		ResponseEntity<LookUpTemplate> lookUpTemplate = restTemplate.exchange(
-				Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
-						+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
-				HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
-				});
+		if (listofUsersNotLoggedIn != null) {
 
-		for (User userEntity : listofUsersNotLoggedIn.getBody()) {
-			Util utilEntity = CreateNewUtilEntity(userEntity.getUsername(), Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET,
-					lookUpTemplate.getBody().getUrl().toString());
+			ResponseEntity<LookUpTemplate> lookUpTemplate = restTemplate.exchange(
+					Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
+							+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
+					HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
+					});
 
-			JSONArray jsonArray = new JSONArray();
-			JSONObject jsonObj = new JSONObject();
-			jsonObj.put("fullName", userEntity.getFirstname() + userEntity.getLastname());
-			jsonArray.put(jsonObj);
-			utilEntity.setJsonArray(jsonArray);
+			for (User userEntity : listofUsersNotLoggedIn.getBody()) {
+				Util utilEntity = CreateNewUtilEntity(userEntity.getUsername(),
+						Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET, lookUpTemplate.getBody().getUrl().toString());
 
-			HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(utilEntity, getHeaders());
-			ResponseEntity<Util> emailResponseEntity = restTemplate.exchange(
-					Config.RESTSERVICE_URL_DEV + "/autoSendEmail/", HttpMethod.PUT, requestHeaderWithObject,
-					Util.class);
+				JSONArray jsonArray = new JSONArray();
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("fullName", userEntity.getFirstname() + userEntity.getLastname());
+				jsonArray.put(jsonObj);
+				utilEntity.setJsonarray(jsonArray);
 
-			if (emailResponseEntity.getBody().getLastReturnCode() != 250) {
-				NotifyToCSSTAdmin(userEntity, emailResponseEntity);
-				break;
+				HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(utilEntity, getHeaders());
+				restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendemail/", HttpMethod.PUT,
+						requestHeaderWithObject, Util.class);
+
+				/*
+				 * if (emailResponseEntity.getBody().getLastReturnCode() != 250) {
+				 * NotifyToCSSTAdmin(userEntity, emailResponseEntity); break; }
+				 */
+
 			}
 		}
 	}
