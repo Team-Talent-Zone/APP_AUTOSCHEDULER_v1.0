@@ -24,11 +24,11 @@ public class AbstractManager {
 	protected static Logger loggerAbstract = LoggerFactory.getLogger(UserNotify.class);
 	static RestTemplate restTemplate = new RestTemplate();
 
-	public static HttpEntity<String> getHttpEntityWithHeaders() {
+	protected static HttpEntity<String> getHttpEntityWithHeaders() {
 		return new HttpEntity<String>(getHeaders());
 	}
 
-	public static HttpHeaders getHeaders() {
+	protected static HttpHeaders getHeaders() {
 		String plainCredentials = Config.REST_USERNAME_DEV + ":" + Config.REST_PASSWORD_DEV;
 		String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
 
@@ -38,7 +38,7 @@ public class AbstractManager {
 		return headers;
 	}
 
-	public static Util CreateNewUtilEntity(String emailToUser, String emailSubject, String templateURL,
+	protected static Util CreateNewUtilEntity(String emailToUser, String emailSubject, String templateURL,
 			String preferlang) {
 		Util utilEntity = new Util();
 		utilEntity.setFromuser(Config.EMAIL_SENT_FROMUSER_DEV);
@@ -49,7 +49,7 @@ public class AbstractManager {
 		return utilEntity;
 	}
 
-	public static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
+	protected static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
 
 		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
 				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,"eng");
@@ -61,7 +61,7 @@ public class AbstractManager {
 		newUtilEntity.setJsonarray(jsonArray);
 
 		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(newUtilEntity, getHeaders());
-		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/autoSendEmail/", HttpMethod.PUT, emailResponseEntity,
+		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.PUT, emailResponseEntity,
 				Util.class);
 
 	}

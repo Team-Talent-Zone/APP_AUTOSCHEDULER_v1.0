@@ -18,14 +18,9 @@ import com.src.pojo.Util;
 
 public class UserNotify extends AbstractManager {
 
-	public static void TriggerUserRelatedAutoGenEmail() {
-		try {
-			WhenFUProfileNotCompleted();
-			WhenUserNotLoggedInYet();
-		} catch (JSONException jsonException) {
-			loggerAbstract.error(
-					"UserNotify : triggerUserRelatedAutoGenEmail method : JSONException " + jsonException.toString());
-		}
+	public static void TriggerUserRelatedAutoGenEmail() throws JSONException {
+		WhenFUProfileNotCompleted();
+		WhenUserNotLoggedInYet();
 	}
 
 	/*
@@ -36,7 +31,7 @@ public class UserNotify extends AbstractManager {
 	private static void WhenUserNotLoggedInYet() throws JSONException {
 
 		ResponseEntity<ArrayList<User>> listofUsersNotLoggedIn = restTemplate.exchange(
-				Config.RESTSERVICE_URL_DEV + "/getAllUsers/", HttpMethod.GET, getHttpEntityWithHeaders(),
+				Config.RESTSERVICE_URL_DEV + "/getUserByRecoveryPwd/", HttpMethod.GET, getHttpEntityWithHeaders(),
 				new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 
@@ -72,8 +67,9 @@ public class UserNotify extends AbstractManager {
 							notification, getHeaders());
 					restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/saveUserNotification/", HttpMethod.POST,
 							requestHeaderWithUserNotificationObject, UserNotification.class);
+				} else {
+					NotifyToCSSTAdmin(userEntity, utilResponseEntity);
 				}
-
 			}
 		}
 	}
