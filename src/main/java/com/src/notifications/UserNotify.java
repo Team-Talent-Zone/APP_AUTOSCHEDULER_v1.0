@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import com.src.constant.Config;
 import com.src.pojo.LookUpTemplate;
 import com.src.pojo.User;
+import com.src.pojo.UserNotification;
 import com.src.pojo.Util;
 
 public class UserNotify extends AbstractManager {
@@ -58,14 +59,20 @@ public class UserNotify extends AbstractManager {
 				jsonArray.put(jsonObj);
 				utilEntity.setJsonarray(jsonArray);
 
-				HttpEntity<Util> requestHeaderWithObject = new HttpEntity<Util>(utilEntity, getHeaders());
-				restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendemail/", HttpMethod.PUT,
-						requestHeaderWithObject, Util.class);
-
-				/*
-				 * if (emailResponseEntity.getBody().getLastReturnCode() != 250) {
-				 * NotifyToCSSTAdmin(userEntity, emailResponseEntity); break; }
-				 */
+				HttpEntity<Util> requestHeaderWithUtilObject = new HttpEntity<Util>(utilEntity, getHeaders());
+				ResponseEntity<Util> utilResponseEntity = restTemplate.exchange(
+						Config.RESTSERVICE_URL_DEV + "/sendemail/", HttpMethod.POST, requestHeaderWithUtilObject,
+						Util.class);
+				if (utilResponseEntity.getBody().getLastreturncode() == 250) {
+					UserNotification notification = new UserNotification();
+					notification.setUserId(userEntity.getUserId());
+					notification.setSentby(Config.NOTIFICATION_SENTBY);
+					notification.setTemplateId(lookUpTemplate.getBody().getTemplateId());
+					HttpEntity<Util> requestHeaderWithUserNotificationObject = new HttpEntity<Util>(utilEntity,
+							getHeaders());
+					restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/saveUserNotification/", HttpMethod.POST,
+							requestHeaderWithUserNotificationObject, UserNotification.class);
+				}
 
 			}
 		}

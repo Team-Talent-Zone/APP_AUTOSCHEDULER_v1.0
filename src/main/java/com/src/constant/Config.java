@@ -14,6 +14,8 @@ public class Config {
 
 	public final static String EMAIL_SENT_FROMUSER_DEV = "team.spprt2019@gmail.com";
 
+	public final static String NOTIFICATION_SENTBY = "System";
+
 	/*
 	 * The below are email subject and short key
 	 */
