@@ -15,25 +15,47 @@ public class Config {
 	public final static String EMAIL_SENT_FROMUSER_DEV = "team.spprt2019@gmail.com";
 
 	public final static String NOTIFICATION_SENTBY = "System";
-	
+
 	public final static String DEFAULT_PREFEREDLANG = "en";
-	
+
 	public final static String ROLE_FREELANCER_USER = "FREELANCER_USER";
 
-
 	/*
-	 * The below are email subject and short key
+	 * The below are template short keys
 	 */
 
-	public final static String EMAIL_SUBJECT_WHENUSERNOTLOGINYET = "Your Account is Ready . Get Started Now With Login";
+	public final static String EMAIL_SHORTKEY_CBU_WHENNEWSERVICE_CREATED = "autogen2";
 
 	public final static String EMAIL_SHORTKEY_FU_WHENUSERNOTLOGINYET = "autogen3";
-	
+
 	public final static String EMAIL_SHORTKEY_CBU_WHENUSERNOTLOGINYET = "autogen4";
 
-	public final static String EMAIL_SUBJECT_SOMETHINGWENTWRONG = "Something Went Wrong. Urgent Attention Needed";
+	public final static String EMAIL_SHORTKEY_SOMETHINGWENTWRONG = "autogen5";
 
-	public final static String EMAIL_SHORTKEY_SOMETHINGWENTWRONG = "autogen4";
+	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen6";
+
+	/*
+	 * The below are template email subjects
+	 */
+
+	public final static String EMAIL_SUBJECT_WHENUSERNOTLOGINYET = "Your account is ready to login";
+
+	public final static String EMAIL_SUBJECT_FU_PROFILENOTCOMPLETED  = "Your Profile is Incompleted .";
+
+	public final static String EMAIL_SUBJECT_SOMETHINGWENTWRONG = "Something went wrong while sending auto email to user";
 	
+	public final static String EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED = "New Service is on platform . Check out now";
+
+	/*
+	 * The below are all the service api call path
+	 */
+
+	public final static String APICALL_GETUSERDETAILSBYRECOVERYPASSWORD = "getUserByRecoveryPwd";
+
+	public final static String APICALL_GETFUUSERDETAILSWHENINCOMPLETEDPROFILE = "getFUUserDetailsWhenInCompleteProfile";
+
+	public final static String APICALL_GETCBUUSERDETAILSFORNEWSERVICECREATED = "";
+
+	public final static String APICALL_SENDEMAIL = "sendemail";
 
 }

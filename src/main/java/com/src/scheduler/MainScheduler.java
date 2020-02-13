@@ -17,9 +17,9 @@ public class MainScheduler {
 		try {
 
 			UserNotify.TriggerUserRelatedAutoGenEmail();
-			NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
-			PaymentNotify.TriggerPaymentRelatedAutoGenEmail();
-			UserServiceNotify.TriggerUserServiceRelatedAutoGenEmail();
+			//NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
+			//PaymentNotify.TriggerPaymentRelatedAutoGenEmail();
+			//UserServiceNotify.TriggerUserServiceRelatedAutoGenEmail();
 
 		} catch (JSONException e) {
 			logger.error("Inside MainScheduler Class : autoRun Method : Exception Error Occur :" + e.toString());

@@ -17,7 +17,7 @@ public class UserNotification implements Serializable {
 	
 	private String sentby;
 	
-	private int templateId;
+	private int templateid;
 
 	public int getId() {
 		return id;
@@ -51,12 +51,12 @@ public class UserNotification implements Serializable {
 		this.sentby = sentby;
 	}
 
-	public int getTemplateId() {
-		return templateId;
+	public int getTemplateid() {
+		return templateid;
 	}
 
-	public void setTemplateId(int templateId) {
-		this.templateId = templateId;
+	public void setTemplateid(int templateid) {
+		this.templateid = templateid;
 	}
 
 }

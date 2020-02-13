@@ -6,7 +6,7 @@ public class LookUpTemplate implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int templateId;
+	private int templateid;
 	
 	private String name;
 
@@ -16,12 +16,12 @@ public class LookUpTemplate implements Serializable {
 
 	private String shortkey;
 
-	public int getTemplateId() {
-		return templateId;
+	public int getTemplateid() {
+		return templateid;
 	}
 
-	public void setTemplateId(int templateId) {
-		this.templateId = templateId;
+	public void setTemplateid(int templateid) {
+		this.templateid = templateid;
 	}
 
 	public String getShortkey() {
