@@ -92,6 +92,16 @@ public class UserNotify extends AbstractManager {
 	}
 
 	private static void WhenFUProfileNotCompleted() {
+
+		ResponseEntity<ArrayList<User>> usersList = restTemplate.exchange(
+				Config.RESTSERVICE_URL_DEV + "/getFUUserDetailsWhenInCompleteProfile/", HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
+				});
+
+		if (usersList != null) {
+
+		}
+
 	};
 
 }
