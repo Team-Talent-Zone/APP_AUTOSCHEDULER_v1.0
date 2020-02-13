@@ -1,5 +1,6 @@
 package com.src.scheduler;
 
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class MainScheduler {
 			PaymentNotify.TriggerPaymentRelatedAutoGenEmail();
 			UserServiceNotify.TriggerUserServiceRelatedAutoGenEmail();
 
-		} catch (Exception e) {
+		} catch (JSONException e) {
 			logger.error("Inside MainScheduler Class : autoRun Method : Exception Error Occur :" + e.toString());
 		}
 	}

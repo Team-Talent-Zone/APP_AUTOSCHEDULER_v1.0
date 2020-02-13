@@ -2,11 +2,8 @@ package com.src.pojo;
 
 import java.io.Serializable;
 
-import org.json.JSONArray;
-
-public class Util implements Serializable  {
-
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class Util implements Serializable {
 
 	private String fromuser;
 
@@ -15,8 +12,8 @@ public class Util implements Serializable  {
 	private String subject;
 
 	private String body;
-	
-	private JSONArray jsonarray;
+
+	private String templatedynamicdata;
 
 	private String templateurl;
 	
@@ -58,14 +55,6 @@ public class Util implements Serializable  {
 		this.body = body;
 	}
 
-	public JSONArray getJsonarray() {
-		return jsonarray;
-	}
-
-	public void setJsonarray(JSONArray jsonarray) {
-		this.jsonarray = jsonarray;
-	}
-
 	public String getTemplateurl() {
 		return templateurl;
 	}
@@ -97,6 +86,13 @@ public class Util implements Serializable  {
 	public void setPreferlang(String preferlang) {
 		this.preferlang = preferlang;
 	}
-	
-	
+
+	public String getTemplatedynamicdata() {
+		return templatedynamicdata;
+	}
+
+	public void setTemplatedynamicdata(String templatedynamicdata) {
+		this.templatedynamicdata = templatedynamicdata;
+	}
+
 }

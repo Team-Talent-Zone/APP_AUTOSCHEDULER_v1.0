@@ -2,7 +2,6 @@ package com.src.notifications;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,39 +29,50 @@ public class UserNotify extends AbstractManager {
 
 	private static void WhenUserNotLoggedInYet() throws JSONException {
 
+		ResponseEntity<LookUpTemplate> lookUpTemplateObject = null;
 		ResponseEntity<ArrayList<User>> listofUsersNotLoggedIn = restTemplate.exchange(
 				Config.RESTSERVICE_URL_DEV + "/getUserByRecoveryPwd/", HttpMethod.GET, getHttpEntityWithHeaders(),
 				new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 
 		if (listofUsersNotLoggedIn != null) {
-			
-			ResponseEntity<LookUpTemplate> lookUpTemplate = restTemplate.exchange(
-					Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
-							+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
-					HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
-					});
-
 			for (User userEntity : listofUsersNotLoggedIn.getBody()) {
+				if (userEntity.getUserroles().getRolecode().equals("FREELANCER_USER")) {
+					lookUpTemplateObject = restTemplate.exchange(
+							Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
+									+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
+							HttpMethod.GET, getHttpEntityWithHeaders(),
+							new ParameterizedTypeReference<LookUpTemplate>() {
+							});
+				} else {
+					/*
+					 * short key need to change here if it is CLIENT_BUSINESS_ADMINISTRATOR
+					 */
+					lookUpTemplateObject = restTemplate.exchange(
+							Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
+									+ Config.EMAIL_SHORTKEY_WHENUSERNOTLOGINYET,
+							HttpMethod.GET, getHttpEntityWithHeaders(),
+							new ParameterizedTypeReference<LookUpTemplate>() {
+							});
+				}
+
 				Util utilEntity = CreateNewUtilEntity(userEntity.getUsername(),
-						Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET, lookUpTemplate.getBody().getUrl().toString(),
+						Config.EMAIL_SUBJECT_WHENUSERNOTLOGINYET, lookUpTemplateObject.getBody().getUrl().toString(),
 						userEntity.getPreferlang());
 
-				JSONArray jsonArray = new JSONArray();
 				JSONObject jsonObj = new JSONObject();
-				jsonObj.put("fullName", userEntity.getFirstname() + userEntity.getLastname());
-				jsonArray.put(jsonObj);
-				utilEntity.setJsonarray(jsonArray);
-
+				jsonObj.put("firstName", userEntity.getFirstname());
+				utilEntity.setTemplatedynamicdata(jsonObj.toString());
 				HttpEntity<Util> requestHeaderWithUtilObject = new HttpEntity<Util>(utilEntity, getHeaders());
 				ResponseEntity<Util> utilResponseEntity = restTemplate.exchange(
 						Config.RESTSERVICE_URL_DEV + "/sendemail/", HttpMethod.POST, requestHeaderWithUtilObject,
 						Util.class);
+
 				if (utilResponseEntity.getBody().getLastreturncode() == 250) {
 					UserNotification notification = new UserNotification();
 					notification.setUserId(userEntity.getUserId());
 					notification.setSentby(Config.NOTIFICATION_SENTBY);
-					notification.setTemplateId(lookUpTemplate.getBody().getTemplateId());
+					notification.setTemplateId(lookUpTemplateObject.getBody().getTemplateId());
 					HttpEntity<UserNotification> requestHeaderWithUserNotificationObject = new HttpEntity<UserNotification>(
 							notification, getHeaders());
 					restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/saveUserNotification/", HttpMethod.POST,
@@ -70,6 +80,7 @@ public class UserNotify extends AbstractManager {
 				} else {
 					NotifyToCSSTAdmin(userEntity, utilResponseEntity);
 				}
+
 			}
 		}
 	}

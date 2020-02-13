@@ -1,7 +1,6 @@
 package com.src.pojo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -33,9 +32,9 @@ public class User implements Serializable {
 	
 	private String preferlang;
 
-	private ArrayList<UserRole> userroles;
+	private UserRole userroles;
 
-	private ArrayList<UserBiz> userbizdetails;
+	private UserBiz userbizdetails;
 
 	public Integer getUserId() {
 		return userId;
@@ -133,19 +132,19 @@ public class User implements Serializable {
 		this.updatedon = updatedon;
 	}
 
-	public ArrayList<UserRole> getUserroles() {
+	public UserRole getUserroles() {
 		return userroles;
 	}
 
-	public void setUserroles(ArrayList<UserRole> userroles) {
+	public void setUserroles(UserRole userroles) {
 		this.userroles = userroles;
 	}
 
-	public ArrayList<UserBiz> getUserbizdetails() {
+	public UserBiz getUserbizdetails() {
 		return userbizdetails;
 	}
 
-	public void setUserbizdetails(ArrayList<UserBiz> userbizdetails) {
+	public void setUserbizdetails(UserBiz userbizdetails) {
 		this.userbizdetails = userbizdetails;
 	}
 

@@ -3,7 +3,6 @@ package com.src.notifications;
 import java.util.Arrays;
 
 import org.apache.commons.codec.binary.Base64;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -51,18 +50,16 @@ public class AbstractManager {
 
 	protected static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
 
-		Util newUtilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
+		Util utilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
 				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,
 				Config.DEFAULT_PREFEREDLANG);
 
-		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("firstName", userEntity.getFirstname() + " " + userEntity.getLastname());
-		jsonArray.put(jsonObj);
-		newUtilEntity.setJsonarray(jsonArray);
+		jsonObj.put("firstName", userEntity.getFirstname());
+		utilEntity.setTemplatedynamicdata(jsonObj.toString());
 
-		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(newUtilEntity, getHeaders());
-		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.PUT, emailResponseEntity,
+		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(utilEntity, getHeaders());
+		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.POST, emailResponseEntity,
 				Util.class);
 
 	}

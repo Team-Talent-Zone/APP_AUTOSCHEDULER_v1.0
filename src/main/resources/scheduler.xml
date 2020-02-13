@@ -16,7 +16,7 @@
 		<bean id="main" class="com.src.scheduler.MainScheduler" />
 		<task:scheduled-tasks scheduler="taskScheduler">
 			<task:scheduled ref="main" method="autoRun"
-				fixed-rate="20000" />
+				fixed-rate="200000" />
 		</task:scheduled-tasks>
 	</beans>
 	<!-- cron="0 0 0/7 * * ?" -->
