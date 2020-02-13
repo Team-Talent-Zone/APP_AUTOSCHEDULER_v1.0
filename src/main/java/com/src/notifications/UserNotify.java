@@ -75,7 +75,7 @@ public class UserNotify extends AbstractManager {
 
 					if (utilResponse.getBody().getLastreturncode() == 250) {
 						UserNotification notification = new UserNotification();
-						notification.setUserId(user.getUserId());
+						notification.setUserid(user.getUserId());
 						notification.setSentby(Config.NOTIFICATION_SENTBY);
 						notification.setTemplateId(templateId);
 						HttpEntity<UserNotification> requestHeaderWithUserNotificationObject = new HttpEntity<UserNotification>(

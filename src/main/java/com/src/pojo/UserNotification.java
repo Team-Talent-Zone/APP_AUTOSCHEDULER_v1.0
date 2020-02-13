@@ -11,7 +11,7 @@ public class UserNotification implements Serializable {
 
 	private int id;
 	
-	private int userId;
+	private int userid;
 	
 	private String senton;
 	
@@ -27,12 +27,12 @@ public class UserNotification implements Serializable {
 		this.id = id;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getUserid() {
+		return userid;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}
 
 	public String getSenton() {
