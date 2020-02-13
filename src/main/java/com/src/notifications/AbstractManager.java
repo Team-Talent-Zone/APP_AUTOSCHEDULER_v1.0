@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.src.constant.Config;
+import com.src.pojo.LookUpTemplate;
 import com.src.pojo.User;
 import com.src.pojo.Util;
 
@@ -48,19 +50,23 @@ public class AbstractManager {
 		return utilEntity;
 	}
 
-	protected static void NotifyToCSSTAdmin(User userEntity, ResponseEntity<Util> responseEntity) throws JSONException {
+	protected static void NotifyToCSSTPlatFormAdminAboutError(User user, String error) throws JSONException {
 
-		Util utilEntity = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG, Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,
-				Config.DEFAULT_PREFEREDLANG);
+		ResponseEntity<LookUpTemplate> errorTemplateObject = restTemplate.exchange(
+				Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/"
+						+ Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG,
+				HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
+				});
+		Util util = CreateNewUtilEntity(Config.EMAIL_SENT_FROMUSER_DEV, Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG,
+				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
 
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("firstName", userEntity.getFirstname());
-		utilEntity.setTemplatedynamicdata(jsonObj.toString());
+		jsonObj.put("firstName", user.getFirstname());
+		jsonObj.put("error", error);
+		util.setTemplatedynamicdata(jsonObj.toString());
 
-		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(utilEntity, getHeaders());
-		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendEmail/", HttpMethod.POST, emailResponseEntity,
+		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(util, getHeaders());
+		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendemail/", HttpMethod.POST, emailResponseEntity,
 				Util.class);
-
 	}
 }

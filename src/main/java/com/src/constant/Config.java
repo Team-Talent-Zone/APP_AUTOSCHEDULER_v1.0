@@ -17,6 +17,8 @@ public class Config {
 	public final static String NOTIFICATION_SENTBY = "System";
 	
 	public final static String DEFAULT_PREFEREDLANG = "en";
+	
+	public final static String ROLE_FREELANCER_USER = "FREELANCER_USER";
 
 
 	/*
@@ -25,10 +27,13 @@ public class Config {
 
 	public final static String EMAIL_SUBJECT_WHENUSERNOTLOGINYET = "Your Account is Ready . Get Started Now With Login";
 
-	public final static String EMAIL_SHORTKEY_WHENUSERNOTLOGINYET = "autogen3";
+	public final static String EMAIL_SHORTKEY_FU_WHENUSERNOTLOGINYET = "autogen3";
+	
+	public final static String EMAIL_SHORTKEY_CBU_WHENUSERNOTLOGINYET = "autogen4";
 
 	public final static String EMAIL_SUBJECT_SOMETHINGWENTWRONG = "Something Went Wrong. Urgent Attention Needed";
 
 	public final static String EMAIL_SHORTKEY_SOMETHINGWENTWRONG = "autogen4";
+	
 
 }
