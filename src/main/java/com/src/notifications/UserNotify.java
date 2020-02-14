@@ -15,7 +15,7 @@ public class UserNotify extends AbstractManager {
 
 	public static void TriggerUserRelatedAutoGenEmail() throws JSONException {
 		WhenUserNotLoggedInYet();
-		//WhenFUProfileNotCompleted();
+		WhenFUProfileNotCompleted();
 	}
 
 	/*
