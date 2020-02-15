@@ -54,8 +54,16 @@ public class Config {
 
 	public final static String APICALL_GETFUUSERDETAILSWHENINCOMPLETEDPROFILE = "getFUUserDetailsWhenInCompleteProfile";
 
-	public final static String APICALL_GETCBUUSERDETAILSFORNEWSERVICECREATED = "";
+	public final static String APICALL_GETUSERSBYROLE = "getUsersByRole";
+	
+	public final static String APICALL_GETNEWSERVICEDETAILSCREATED = "getNewServiceDetailsCreated";
 
 	public final static String APICALL_SENDEMAIL = "sendemail";
+	
+	/*
+	 * 
+	 */
+	public final static String  CLIENT_BUSINESS_ADMINISTRATOR = "CLIENT_BUSINESS_ADMINISTRATOR";
+
 
 }

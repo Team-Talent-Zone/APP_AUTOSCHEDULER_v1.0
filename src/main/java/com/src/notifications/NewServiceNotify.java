@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import com.src.constant.Config;
 import com.src.pojo.LookUpTemplate;
+import com.src.pojo.NewService;
 import com.src.pojo.User;
 import com.src.pojo.Util;
 
@@ -22,26 +25,36 @@ public class NewServiceNotify extends AbstractManager {
 		/*
 		 * Replace with the api url path
 		 */
-		ResponseEntity<ArrayList<User>> usersList = getUserDetailsByAPICall(
-				Config.APICALL_GETCBUUSERDETAILSFORNEWSERVICECREATED);
 
-		ResponseEntity<LookUpTemplate> templatedetails = getTemplateDetailsByShortKey(
-				Config.EMAIL_SHORTKEY_CBU_WHENNEWSERVICE_CREATED);
+		ResponseEntity<ArrayList<NewService>> newservicelist = restTemplate.exchange(
+				Config.RESTSERVICE_URL_DEV + "/" + Config.APICALL_GETNEWSERVICEDETAILSCREATED, HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<NewService>>() {
+				});
+		if (newservicelist != null) {
+			ResponseEntity<ArrayList<User>> usersCBUList = restTemplate.exchange(
+					Config.RESTSERVICE_URL_DEV + "/" + Config.APICALL_GETUSERSBYROLE + "/"
+							+ Config.CLIENT_BUSINESS_ADMINISTRATOR,
+					HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
+					});
 
-		if (usersList != null) {
-			for (User user : usersList.getBody()) {
-				try {
-					Util util = createNewUtilEntityObj(user.getUsername(), Config.EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED,
-							templatedetails.getBody().getUrl().toString(), user.getPreferlang());
-					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("firstName", user.getFirstname());
-					util.setTemplatedynamicdata(jsonObj.toString());
-					sendEmail(util);
-				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+			ResponseEntity<LookUpTemplate> templatedetails = getTemplateDetailsByShortKey(
+					Config.EMAIL_SHORTKEY_CBU_WHENNEWSERVICE_CREATED);
+
+			if (usersCBUList != null) {
+				for (User user : usersCBUList.getBody()) {
+					try {
+						Util util = createNewUtilEntityObj(user.getUsername(),
+								Config.EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED,
+								templatedetails.getBody().getUrl().toString(), user.getPreferlang());
+						JSONObject jsonObj = new JSONObject();
+						jsonObj.put("firstName", user.getFirstname());
+						util.setTemplatedynamicdata(jsonObj.toString());
+						sendEmail(util);
+					} catch (Exception e) {
+						NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+					}
 				}
 			}
 		}
 	}
-
 }
