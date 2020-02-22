@@ -57,19 +57,19 @@ public class AbstractManager {
 	}
 
 	protected static ResponseEntity<LookUpTemplate> getTemplateDetailsByShortKey(String shortKey) {
-		return restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/getLookupTemplateEntityByShortkey/" + shortKey,
+		return restTemplate.exchange(Config.REST_URL + "/getLookupTemplateEntityByShortkey/" + shortKey,
 				HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
 				});
 	}
 
 	protected static ResponseEntity<ArrayList<User>> getUserDetailsByAPICall(String apipath) {
-		return restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/" + apipath + "/", HttpMethod.GET,
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 	}
 	
 	protected static ResponseEntity<ArrayList<UserServiceExpirationDetails>> getServiceDetailsByAPICall(String apipath) {
-		return restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/" + apipath + "/", HttpMethod.GET,
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<UserServiceExpirationDetails>>() {
 				});
 	}
@@ -77,7 +77,7 @@ public class AbstractManager {
 
 	protected static ResponseEntity<Util> sendEmail(Util util) {
 		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(util, getHeaders());
-		return restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/sendemail/", HttpMethod.POST, emailResponseEntity,
+		return restTemplate.exchange(Config.REST_URL + "/sendemail/", HttpMethod.POST, emailResponseEntity,
 				Util.class);
 	}
 
@@ -89,7 +89,7 @@ public class AbstractManager {
 		notification.setTemplateid(templateId);
 		HttpEntity<UserNotification> requestHeaderWithUserNotificationObject = new HttpEntity<UserNotification>(
 				notification, getHeaders());
-		restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/saveUserNotification/", HttpMethod.POST,
+		restTemplate.exchange(Config.REST_URL + "/saveUserNotification/", HttpMethod.POST,
 				requestHeaderWithUserNotificationObject, UserNotification.class);
 	};
 

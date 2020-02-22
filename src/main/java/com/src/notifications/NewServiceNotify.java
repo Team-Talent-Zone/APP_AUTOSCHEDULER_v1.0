@@ -56,12 +56,12 @@ public class NewServiceNotify extends AbstractManager {
 		 */
 
 		ResponseEntity<ArrayList<NewService>> newservicelist = restTemplate.exchange(
-				Config.RESTSERVICE_URL_DEV + "/" + Config.APICALL_GETNEWSERVICEDETAILSCREATED, HttpMethod.GET,
+				Config.REST_URL + "/" + Config.APICALL_GETNEWSERVICEDETAILSCREATED, HttpMethod.GET,
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<NewService>>() {
 				});
 		if (newservicelist != null) {
 			ResponseEntity<ArrayList<User>> usersCBUList = restTemplate.exchange(
-					Config.RESTSERVICE_URL_DEV + "/" + Config.APICALL_GETUSERSBYROLE + "/"
+					Config.REST_URL + "/" + Config.APICALL_GETUSERSBYROLE + "/"
 							+ Config.CLIENT_BUSINESS_ADMINISTRATOR,
 					HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
 					});

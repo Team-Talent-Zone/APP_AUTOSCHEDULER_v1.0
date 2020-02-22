@@ -2,12 +2,10 @@ package com.src.constant;
 
 public class Config {
 
-	public final static String RESTSERVICE_URL_DEV = "http://localhost:8080/RestAPI";
+	public final static String REST_URL = "http://localhost:8080/RestAPI";
 
-	public final static String RESTSERVICE_URL_QA = "http://ec2-34-235-195-154.compute-1.amazonaws.com:8080/technelinkrest";
-
-	public final static String RESTSERVICE_URL_PRD = "http://ec2-34-225-73-253.compute-1.amazonaws.com:8080/technelinkrest";
-
+	public final static String UI_URL = "http://ec2-3-84-10-123.compute-1.amazonaws.com:3000/";
+	
 	public final static String REST_USERNAME_DEV = "restservicebasicauthuser";
 
 	public final static String REST_PASSWORD_DEV = "TL#2017@REST*832463$#";
