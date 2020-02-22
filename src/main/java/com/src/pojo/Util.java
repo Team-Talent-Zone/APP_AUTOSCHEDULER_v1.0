@@ -22,6 +22,8 @@ public class Util implements Serializable {
 	private String lastserverresponse;
 	
 	private String preferlang;
+	
+	private String translateresp;
 
 	public String getFromuser() {
 		return fromuser;
@@ -95,4 +97,13 @@ public class Util implements Serializable {
 		this.templatedynamicdata = templatedynamicdata;
 	}
 
+	public String getTranslateresp() {
+		return translateresp;
+	}
+
+	public void setTranslateresp(String translateresp) {
+		this.translateresp = translateresp;
+	}
+	
+	
 }

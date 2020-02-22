@@ -14,8 +14,9 @@ import com.src.pojo.Util;
 public class UserNotify extends AbstractManager {
 
 	public static void TriggerUserRelatedAutoGenEmail() throws JSONException {
-		WhenUserNotLoggedInYet();
-		WhenFUProfileNotCompleted();
+		//WhenUserNotLoggedInYet();
+		//WhenFUProfileNotCompleted();
+		WhenPwdRecoveryIsNeeded();
 	}
 
 	/*
@@ -24,7 +25,8 @@ public class UserNotify extends AbstractManager {
 	 * successfully .
 	 */
 
-	private static void WhenUserNotLoggedInYet() throws JSONException {
+	
+	private static void WhenPwdRecoveryIsNeeded() throws JSONException {
 
 		String templateURL = null;
 		int templateId;
@@ -77,7 +79,7 @@ public class UserNotify extends AbstractManager {
 					Util util = createNewUtilEntityObj(user.getUsername(), Config.EMAIL_SUBJECT_FU_PROFILENOTCOMPLETED,
 							templatedetails.getBody().getUrl().toString(), user.getPreferlang());
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("firstName", user.getFirstname());
+					jsonObj.put("firstName", user.getFirstname());				
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
 					if (emailresponse.getBody().getLastreturncode() == 250) {

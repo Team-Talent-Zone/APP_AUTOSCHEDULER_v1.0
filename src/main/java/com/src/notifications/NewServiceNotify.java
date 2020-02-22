@@ -12,12 +12,41 @@ import com.src.constant.Config;
 import com.src.pojo.LookUpTemplate;
 import com.src.pojo.NewService;
 import com.src.pojo.User;
+import com.src.pojo.UserServiceExpirationDetails;
 import com.src.pojo.Util;
 
 public class NewServiceNotify extends AbstractManager {
 
 	public static void TriggerNewServiceRelatedAutoGenEmail() throws JSONException {
-		WhenNewServiceIsOnboardedOnPlatform();
+		// WhenNewServiceIsOnboardedOnPlatform();
+		WhenCBAUserServiceGettingExpired();
+	}
+
+	private static void WhenCBAUserServiceGettingExpired() throws JSONException {
+		ResponseEntity<ArrayList<UserServiceExpirationDetails>> usersList = getServiceDetailsByAPICall(
+				Config.APICALL_GETUSERSERVICEEXPIRATIONDETAILS);
+		ResponseEntity<LookUpTemplate> cbuTemplateObject = getTemplateDetailsByShortKey(
+				Config.EMAIL_SHORTKEY_FU_WHENUSERNOTLOGINYET);
+
+		if (usersList != null) {
+			for (UserServiceExpirationDetails user : usersList.getBody()) {
+				try {
+					Util util = createNewUtilEntityObj(user.getUsername(),
+							Config.EMAIL_SUBJECT_CBU_WHENSERVICEISGETTINGEXPIRED,
+							cbuTemplateObject.getBody().getUrl().toString(), user.getPreferlang());
+
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("firstName", user.getFirstname());
+					util.setTemplatedynamicdata(jsonObj.toString());
+					ResponseEntity<Util> emailresponse = sendEmail(util);
+					if (emailresponse.getBody().getLastreturncode() == 250) {
+						saveNotificationDetails(user.getUserId(), cbuTemplateObject.getBody().getTemplateid());
+					}
+				} catch (Exception e) {
+					NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+				}
+			}
+		}
 	}
 
 	private static void WhenNewServiceIsOnboardedOnPlatform() throws JSONException {

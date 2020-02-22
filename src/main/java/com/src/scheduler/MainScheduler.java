@@ -5,9 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.src.notifications.NewServiceNotify;
-import com.src.notifications.PaymentNotify;
+//import com.src.notifications.NewServiceNotify;
+//import com.src.notifications.PaymentNotify;
 import com.src.notifications.UserNotify;
-import com.src.notifications.UserServiceNotify;
+//import com.src.notifications.UserServiceNotify;
 
 public class MainScheduler {
 

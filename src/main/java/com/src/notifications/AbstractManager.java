@@ -23,6 +23,7 @@ import com.src.constant.Config;
 import com.src.pojo.LookUpTemplate;
 import com.src.pojo.User;
 import com.src.pojo.UserNotification;
+import com.src.pojo.UserServiceExpirationDetails;
 import com.src.pojo.Util;
 
 public class AbstractManager {
@@ -66,6 +67,13 @@ public class AbstractManager {
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 	}
+	
+	protected static ResponseEntity<ArrayList<UserServiceExpirationDetails>> getServiceDetailsByAPICall(String apipath) {
+		return restTemplate.exchange(Config.RESTSERVICE_URL_DEV + "/" + apipath + "/", HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<UserServiceExpirationDetails>>() {
+				});
+	}
+	
 
 	protected static ResponseEntity<Util> sendEmail(Util util) {
 		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(util, getHeaders());
@@ -105,4 +113,20 @@ public class AbstractManager {
 		util.setTemplatedynamicdata(jsonObj.toString());
 		sendEmail(util);
 	}
+
+	protected static void NotifyToCSSTPlatFormAdminAboutError(UserServiceExpirationDetails user, String error) throws JSONException {
+
+		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
+				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
+		Util util = createNewUtilEntityObj(Config.EMAIL_SENT_FROMUSER_DEV,
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + user.getUsername(),
+				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("firstName", user.getFirstname());
+		jsonObj.put("error", error);
+		util.setTemplatedynamicdata(jsonObj.toString());
+		sendEmail(util);
+	}
+
 }

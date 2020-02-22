@@ -32,7 +32,7 @@ public class Config {
 
 	public final static String EMAIL_SHORTKEY_SOMETHINGWENTWRONG = "autogen5";
 
-	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen6";
+	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen3";
 
 	/*
 	 * The below are template email subjects
@@ -45,6 +45,9 @@ public class Config {
 	public final static String EMAIL_SUBJECT_SOMETHINGWENTWRONG = "Something went wrong while sending auto email to user";
 	
 	public final static String EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED = "New Service is on platform . Check out now";
+	
+	public final static String EMAIL_SUBJECT_CBU_WHENSERVICEISGETTINGEXPIRED = "Your Service is getting Expired.Check out now";
+	
 
 	/*
 	 * The below are all the service api call path
@@ -59,6 +62,10 @@ public class Config {
 	public final static String APICALL_GETNEWSERVICEDETAILSCREATED = "getNewServiceDetailsCreated";
 
 	public final static String APICALL_SENDEMAIL = "sendemail";
+	
+	public final static String APICALL_GETUSERSERVICEEXPIRATIONDETAILS = "getUserServiceExpirationDetails";
+	
+	
 	
 	/*
 	 * 
