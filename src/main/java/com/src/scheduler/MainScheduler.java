@@ -16,7 +16,7 @@ public class MainScheduler {
 	public void autoRun() {
 		try {
 
-			//UserNotify.TriggerUserRelatedAutoGenEmail();
+			UserNotify.TriggerUserRelatedAutoGenEmail();
 			NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
 			//PaymentNotify.TriggerPaymentRelatedAutoGenEmail();
 			//UserServiceNotify.TriggerUserServiceRelatedAutoGenEmail();

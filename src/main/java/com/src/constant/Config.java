@@ -55,6 +55,8 @@ public class Config {
 	 */
 
 	public final static String APICALL_GETUSERDETAILSBYRECOVERYPASSWORD = "getUserByRecoveryPwd";
+	
+	public final static String APICALL_GETUSERDETAILS = "getAllUsers";
 
 	public final static String APICALL_GETFUUSERDETAILSWHENINCOMPLETEDPROFILE = "getFUUserDetailsWhenInCompleteProfile";
 

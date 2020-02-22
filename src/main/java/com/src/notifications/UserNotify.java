@@ -14,9 +14,8 @@ import com.src.pojo.Util;
 public class UserNotify extends AbstractManager {
 
 	public static void TriggerUserRelatedAutoGenEmail() throws JSONException {
-		//WhenUserNotLoggedInYet();
 		WhenFUProfileNotCompleted();
-		//WhenPwdRecoveryIsNeeded();
+		WhenPwdRecoveryIsNeeded();
 	}
 
 	/*
@@ -42,6 +41,10 @@ public class UserNotify extends AbstractManager {
 				Config.EMAIL_SHORTKEY_CBU_WHENUSERNOTLOGINYET);
 
 		if (usersList != null) {
+			
+			ResponseEntity<ArrayList<User>> listofusers= getUserDetailsByAPICall(
+					Config.APICALL_GETUSERDETAILS);
+		 
 			for (User user : usersList.getBody()) {
 				try {
 					if (user.getUserroles().getRolecode().equals(Config.ROLE_FREELANCER_USER)) {
@@ -55,7 +58,11 @@ public class UserNotify extends AbstractManager {
 							templateURL, user.getPreferlang());
 
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("firstName", user.getFirstname());
+					jsonObj.put("firstname", user.getFirstname());
+					jsonObj.put("companyname", Config.COMPANY_NAME);
+					jsonObj.put("platformURL",Config.UI_URL);
+					jsonObj.put("roleId",listofusers.getBody().size());
+					
 					util.setTemplatedynamicdata(jsonObj.toString());
 
 					ResponseEntity<Util> emailresponse = sendEmail(util);
@@ -86,8 +93,9 @@ public class UserNotify extends AbstractManager {
 					Util util = createNewUtilEntityObj(user.getUsername(), Config.EMAIL_SUBJECT_FU_PROFILENOTCOMPLETED,
 							templatedetails.getBody().getUrl().toString(), user.getPreferlang());
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("firstName", user.getFirstname());		
-					jsonObj.put("companyname", Config.COMPANY_NAME);		
+					jsonObj.put("firstname", user.getFirstname());		
+					jsonObj.put("companyname", Config.COMPANY_NAME);
+					jsonObj.put("platformURL",Config.UI_URL);
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
 					if (emailresponse.getBody().getLastreturncode() == 250) {

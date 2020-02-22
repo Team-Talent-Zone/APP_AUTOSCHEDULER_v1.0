@@ -40,9 +40,11 @@ public class NewServiceNotify extends AbstractManager {
 							cbuTemplateObject.getBody().getUrl().toString(), user.getPreferlang());
 
 					JSONObject jsonObj = new JSONObject();
-					jsonObj.put("firstName", user.getFirstname());
+					jsonObj.put("firstname", user.getFirstname());
 					jsonObj.put("companyname", Config.COMPANY_NAME);
 					jsonObj.put("servicepackname",user.getName());
+					jsonObj.put("platformURL",Config.UI_URL);
+
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
 					if (emailresponse.getBody().getLastreturncode() == 250) {
