@@ -22,6 +22,10 @@ public class NewServiceNotify extends AbstractManager {
 		WhenCBAUserServiceGettingExpired();
 	}
 
+	/**
+	 * This method sends the mail for CBA users whose services is getting expired.
+	 * @throws JSONException
+	 */
 	private static void WhenCBAUserServiceGettingExpired() throws JSONException {
 		ResponseEntity<ArrayList<UserServiceExpirationDetails>> usersList = getServiceDetailsByAPICall(
 				Config.APICALL_GETUSERSERVICEEXPIRATIONDETAILS);

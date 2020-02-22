@@ -25,7 +25,10 @@ public class UserNotify extends AbstractManager {
 	 * successfully .
 	 */
 
-	
+	/**
+	 * sends the emailto users who need recovery of password and when isActive is false
+	 * @throws JSONException
+	 */
 	private static void WhenPwdRecoveryIsNeeded() throws JSONException {
 
 		String templateURL = null;
@@ -66,6 +69,10 @@ public class UserNotify extends AbstractManager {
 		}
 	}
 
+	/**
+	 * sends email to FU users who didnt complete their profiles.
+	 * @throws JSONException
+	 */
 	private static void WhenFUProfileNotCompleted() throws JSONException {
 
 		ResponseEntity<ArrayList<User>> usersList = getUserDetailsByAPICall(
