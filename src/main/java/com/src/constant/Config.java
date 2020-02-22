@@ -17,6 +17,8 @@ public class Config {
 	public final static String DEFAULT_PREFEREDLANG = "en";
 
 	public final static String ROLE_FREELANCER_USER = "FREELANCER_USER";
+	
+	public final static String COMPANY_NAME ="XYZ";
 
 	/*
 	 * The below are template short keys
@@ -30,8 +32,9 @@ public class Config {
 
 	public final static String EMAIL_SHORTKEY_SOMETHINGWENTWRONG = "autogen5";
 
-	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen3";
+	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen6";
 
+	public final static String EMAIL_SHORTKEY_CBA_WHENSERVICEGETTINGEXPIRED = "autogen7";
 	/*
 	 * The below are template email subjects
 	 */

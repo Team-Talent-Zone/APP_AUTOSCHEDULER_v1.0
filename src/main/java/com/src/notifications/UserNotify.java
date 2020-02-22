@@ -80,7 +80,7 @@ public class UserNotify extends AbstractManager {
 							templatedetails.getBody().getUrl().toString(), user.getPreferlang());
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("firstName", user.getFirstname());		
-					jsonObj.put("platformURL", Config.UI_URL);		
+					jsonObj.put("companyname", Config.COMPANY_NAME);		
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
 					if (emailresponse.getBody().getLastreturncode() == 250) {

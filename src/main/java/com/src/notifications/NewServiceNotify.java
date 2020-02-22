@@ -26,7 +26,7 @@ public class NewServiceNotify extends AbstractManager {
 		ResponseEntity<ArrayList<UserServiceExpirationDetails>> usersList = getServiceDetailsByAPICall(
 				Config.APICALL_GETUSERSERVICEEXPIRATIONDETAILS);
 		ResponseEntity<LookUpTemplate> cbuTemplateObject = getTemplateDetailsByShortKey(
-				Config.EMAIL_SHORTKEY_FU_WHENUSERNOTLOGINYET);
+				Config.EMAIL_SHORTKEY_CBA_WHENSERVICEGETTINGEXPIRED);
 
 		if (usersList != null) {
 			for (UserServiceExpirationDetails user : usersList.getBody()) {
@@ -37,6 +37,8 @@ public class NewServiceNotify extends AbstractManager {
 
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("firstName", user.getFirstname());
+					jsonObj.put("companyname", Config.COMPANY_NAME);
+					jsonObj.put("servicepackname",user.getName());
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
 					if (emailresponse.getBody().getLastreturncode() == 250) {

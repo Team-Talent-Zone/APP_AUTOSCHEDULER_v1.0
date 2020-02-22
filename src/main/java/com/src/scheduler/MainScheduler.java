@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.src.notifications.NewServiceNotify;
-//import com.src.notifications.NewServiceNotify;
 //import com.src.notifications.PaymentNotify;
 import com.src.notifications.UserNotify;
 //import com.src.notifications.UserServiceNotify;
@@ -17,8 +16,8 @@ public class MainScheduler {
 	public void autoRun() {
 		try {
 
-			UserNotify.TriggerUserRelatedAutoGenEmail();
-			//NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
+			//UserNotify.TriggerUserRelatedAutoGenEmail();
+			NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
 			//PaymentNotify.TriggerPaymentRelatedAutoGenEmail();
 			//UserServiceNotify.TriggerUserServiceRelatedAutoGenEmail();
 
