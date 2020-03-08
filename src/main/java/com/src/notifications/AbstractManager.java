@@ -21,8 +21,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.src.constant.Config;
 import com.src.pojo.LookUpTemplate;
+import com.src.pojo.NewService;
 import com.src.pojo.User;
 import com.src.pojo.UserNotification;
+import com.src.pojo.UserServiceDetails;
 import com.src.pojo.UserServiceExpirationDetails;
 import com.src.pojo.Util;
 
@@ -74,6 +76,17 @@ public class AbstractManager {
 				});
 	}
 	
+	protected static ResponseEntity<ArrayList<NewService>> getNewServiceDetailsByAPICall(String apipath) {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<NewService>>() {
+				});
+	}
+	protected static ResponseEntity<ArrayList<UserServiceDetails>> getUserServicePendingPayment(String apipath) {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<UserServiceDetails>>() {
+				});
+	}
+	
 
 	protected static ResponseEntity<Util> sendEmail(Util util) {
 		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(util, getHeaders());
@@ -99,7 +112,7 @@ public class AbstractManager {
 		return dateFormat.format(cal.getTime());
 	}
 
-	protected static void NotifyToCSSTPlatFormAdminAboutError(User user, String error) throws JSONException {
+	protected static void NotifyToCSSTPlatFormAdminAboutErrors(User user, String error) throws JSONException {
 
 		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
 				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
@@ -109,6 +122,21 @@ public class AbstractManager {
 
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("firstName", user.getFirstname());
+		jsonObj.put("error", error);
+		util.setTemplatedynamicdata(jsonObj.toString());
+		sendEmail(util);
+	}
+	
+	protected static void NotifyToCSSTPlatFormAdminAboutError(UserServiceDetails user, String error) throws JSONException {
+
+		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
+				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
+		Util util = createNewUtilEntityObj(Config.EMAIL_SENT_FROMUSER_DEV,
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + user.getUserService().getUsername(),
+				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("firstName", user.getUserService().getFirstname());
 		jsonObj.put("error", error);
 		util.setTemplatedynamicdata(jsonObj.toString());
 		sendEmail(util);

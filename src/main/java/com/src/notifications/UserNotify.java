@@ -70,7 +70,7 @@ public class UserNotify extends AbstractManager {
 						saveNotificationDetails(user.getUserId(), templateId);
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+					NotifyToCSSTPlatFormAdminAboutErrors(user, e.toString());
 				}
 			}
 		}
@@ -102,7 +102,7 @@ public class UserNotify extends AbstractManager {
 						saveNotificationDetails(user.getUserId(), templatedetails.getBody().getTemplateid());
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+					NotifyToCSSTPlatFormAdminAboutErrors(user, e.toString());
 				}
 			}
 		}

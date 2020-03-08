@@ -24,6 +24,8 @@ public class Config {
 	 * The below are template short keys
 	 */
 
+	public final static String EMAIL_SHORTKEY_FU_WHENUSERJOBISGETTINGEXPIRED = "autogen1";
+	
 	public final static String EMAIL_SHORTKEY_CBU_WHENNEWSERVICE_CREATED = "autogen2";
 
 	public final static String EMAIL_SHORTKEY_FU_WHENUSERNOTLOGINYET = "autogen3";
@@ -35,6 +37,8 @@ public class Config {
 	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen6";
 
 	public final static String EMAIL_SHORTKEY_CBA_WHENSERVICEGETTINGEXPIRED = "autogen7";
+	
+	public final static String EMAIL_SHORTKEY_CBA_WHENPAYMENTISPENDING = "autogen9";
 	/*
 	 * The below are template email subjects
 	 */
@@ -48,13 +52,18 @@ public class Config {
 	public final static String EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED = "New Service is on platform . Check out now";
 	
 	public final static String EMAIL_SUBJECT_CBU_WHENSERVICEISGETTINGEXPIRED = "Your Service is getting Expired.Check out now";
+
+	public final static String EMAIL_SUBJECT_CBU_WHENSERVICEISPENDING ="Just one step away, Complete your Payment";
 	
+	public final static String EMAIL_SUBJECT_FU_WHENJOBISGETTINGEXPIRED = "Your Job is getting Expired.Check out now";
 
 	/*
 	 * The below are all the service api call path
 	 */
 
 	public final static String APICALL_GETUSERDETAILSBYRECOVERYPASSWORD = "getUserByRecoveryPwd";
+	
+	public final static String APICALL_GETUSERSERVICEPENDINGPAYMENT="getUserServicePendingPayment";
 	
 	public final static String APICALL_GETUSERDETAILS = "getAllUsers";
 
@@ -67,6 +76,9 @@ public class Config {
 	public final static String APICALL_SENDEMAIL = "sendemail";
 	
 	public final static String APICALL_GETUSERSERVICEEXPIRATIONDETAILS = "getUserServiceExpirationDetails";
+	
+	public final static String APICALL_GETFUUSERDETAILSWHENINCOMPLETEPROFILE = "getFUUserDetailsWhenInCompleteProfile";
+	
 	
 	/*
 	 * 
