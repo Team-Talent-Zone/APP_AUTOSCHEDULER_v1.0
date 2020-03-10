@@ -11,6 +11,9 @@ import com.src.pojo.LookUpTemplate;
 import com.src.pojo.User;
 import com.src.pojo.Util;
 
+/*
+ * this class will have methods which will send emails to the Users related to any User Notifications
+ */
 public class UserNotify extends AbstractManager {
 
 	public static void TriggerUserRelatedAutoGenEmail() throws JSONException {
@@ -22,11 +25,6 @@ public class UserNotify extends AbstractManager {
 	 * The method will send the email notification to CBU or FU users who has not
 	 * logged-in to platform yet after resetting the password and after signup
 	 * successfully .
-	 */
-
-	/**
-	 * sends the emailto users who need recovery of password and when isActive is false
-	 * @throws JSONException
 	 */
 	private static void WhenPwdRecoveryIsNeeded() throws JSONException {
 
@@ -40,7 +38,7 @@ public class UserNotify extends AbstractManager {
 		ResponseEntity<LookUpTemplate> fuTemplateObject = getTemplateDetailsByShortKey(
 				Config.EMAIL_SHORTKEY_CBU_WHENUSERNOTLOGINYET);
 
-		if (usersList != null) {
+		if (usersList.getBody() != null) {
 			
 			ResponseEntity<ArrayList<User>> listofusers= getUserDetailsByAPICall(
 					Config.APICALL_GETUSERDETAILS);
@@ -70,14 +68,14 @@ public class UserNotify extends AbstractManager {
 						saveNotificationDetails(user.getUserId(), templateId);
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutErrors(user, e.toString());
+					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
 				}
 			}
 		}
 	}
 
-	/**
-	 * sends email to FU users who didnt complete their profiles.
+	/*
+	 * sends email to FU users who have not filled the details in their profile i.e. who have incomplete profiles.
 	 * @throws JSONException
 	 */
 	private static void WhenFUProfileNotCompleted() throws JSONException {
@@ -102,7 +100,7 @@ public class UserNotify extends AbstractManager {
 						saveNotificationDetails(user.getUserId(), templatedetails.getBody().getTemplateid());
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutErrors(user, e.toString());
+					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
 				}
 			}
 		}

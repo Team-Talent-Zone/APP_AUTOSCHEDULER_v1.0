@@ -11,6 +11,10 @@ import com.src.pojo.LookUpTemplate;
 import com.src.pojo.UserServiceExpirationDetails;
 import com.src.pojo.Util;
 
+
+/*
+ * this class will have methods which will send emails to the Users related to User Services.
+ */
 public class UserServiceNotify extends AbstractManager{
 	
 	public static void TriggerUserServiceRelatedAutoGenEmail() throws JSONException {
@@ -48,12 +52,16 @@ public class UserServiceNotify extends AbstractManager{
 						saveNotificationDetails(user.getUserId(), cbuTemplateObject.getBody().getTemplateid());
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
 				}
 			}
 		}
 	}
 	
+	/**
+	 * This method sends the mail for FU users whose services is getting expired.
+	 * @throws JSONException
+	 */
 	private static void WhenFUUserServiceGettingExpired() throws JSONException {
 		ResponseEntity<ArrayList<UserServiceExpirationDetails>> usersList = getServiceDetailsByAPICall(
 				Config.APICALL_GETFUUSERDETAILSWHENINCOMPLETEPROFILE);
@@ -79,7 +87,7 @@ public class UserServiceNotify extends AbstractManager{
 						saveNotificationDetails(user.getUserId(), fuTemplateObject.getBody().getTemplateid());
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user, e.toString());
+					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
 				}
 			}
 		}

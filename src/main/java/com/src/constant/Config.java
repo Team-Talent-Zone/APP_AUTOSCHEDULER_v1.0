@@ -65,6 +65,8 @@ public class Config {
 	
 	public final static String APICALL_GETUSERSERVICEPENDINGPAYMENT="getUserServicePendingPayment";
 	
+	public final static String APICALL_GETUSERSBYUSERID = "getUserByUserId";
+	
 	public final static String APICALL_GETUSERDETAILS = "getAllUsers";
 
 	public final static String APICALL_GETFUUSERDETAILSWHENINCOMPLETEDPROFILE = "getFUUserDetailsWhenInCompleteProfile";

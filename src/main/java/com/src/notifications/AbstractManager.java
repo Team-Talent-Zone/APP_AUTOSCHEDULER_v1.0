@@ -64,11 +64,14 @@ public class AbstractManager {
 				});
 	}
 
+	
+	
 	protected static ResponseEntity<ArrayList<User>> getUserDetailsByAPICall(String apipath) {
-		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/" , HttpMethod.GET,
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 	}
+		
 	
 	protected static ResponseEntity<ArrayList<UserServiceExpirationDetails>> getServiceDetailsByAPICall(String apipath) {
 		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
@@ -112,47 +115,19 @@ public class AbstractManager {
 		return dateFormat.format(cal.getTime());
 	}
 
-	protected static void NotifyToCSSTPlatFormAdminAboutErrors(User user, String error) throws JSONException {
+	protected static void NotifyToCSSTPlatFormAdminAboutError(String username , String firstname, String error) throws JSONException {
 
 		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
 				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
 		Util util = createNewUtilEntityObj(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + user.getUsername(),
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + username,
 				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
 
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("firstName", user.getFirstname());
-		jsonObj.put("error", error);
-		util.setTemplatedynamicdata(jsonObj.toString());
-		sendEmail(util);
-	}
-	
-	protected static void NotifyToCSSTPlatFormAdminAboutError(UserServiceDetails user, String error) throws JSONException {
-
-		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
-				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
-		Util util = createNewUtilEntityObj(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + user.getUserService().getUsername(),
-				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
-
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("firstName", user.getUserService().getFirstname());
-		jsonObj.put("error", error);
-		util.setTemplatedynamicdata(jsonObj.toString());
-		sendEmail(util);
-	}
-
-	protected static void NotifyToCSSTPlatFormAdminAboutError(UserServiceExpirationDetails user, String error) throws JSONException {
-
-		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
-				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
-		Util util = createNewUtilEntityObj(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + user.getUsername(),
-				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
-
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("firstName", user.getFirstname());
-		jsonObj.put("error", error);
+		jsonObj.put("name",username);
+		jsonObj.put("firstname",firstname);
+		
+		//jsonObj.put("error", error);
 		util.setTemplatedynamicdata(jsonObj.toString());
 		sendEmail(util);
 	}

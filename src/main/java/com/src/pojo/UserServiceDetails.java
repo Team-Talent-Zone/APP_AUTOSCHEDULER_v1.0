@@ -28,16 +28,6 @@ public class UserServiceDetails implements Serializable {
 
 	private String serviceEndOn;
 	
-	private User userService;
-	
-	public User getUserService() {
-		return userService;
-	}
-
-	public void setUserService(User userService) {
-		this.userService = userService;
-	}
-
 	public Integer getServiceId() {
 		return serviceId;
 	}

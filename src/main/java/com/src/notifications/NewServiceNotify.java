@@ -50,7 +50,7 @@ public class NewServiceNotify extends AbstractManager {
 						util.setTemplatedynamicdata(jsonObj.toString());
 						sendEmail(util);
 					} catch (Exception e) {
-						NotifyToCSSTPlatFormAdminAboutErrors(user, e.toString());
+						NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
 					}
 				}
 			}
