@@ -15,7 +15,6 @@ import com.src.pojo.User;
 import com.src.pojo.UserServiceDetails;
 import com.src.pojo.Util;
 
-
 /*
  * this class will have methods which will send emails to the Users related to Payments.
  */
@@ -35,7 +34,8 @@ public class PaymentNotify extends AbstractManager {
 	}
 
 	/*
-	 * this method sends email to CBU users who have not completed payment for the services.
+	 * this method sends email to CBU users who have not completed payment for the
+	 * services.
 	 */
 	private static void WhenCBUUserPaymentIsPending() throws JSONException {
 		ResponseEntity<ArrayList<UserServiceDetails>> usersList = getUserServicePendingPayment(

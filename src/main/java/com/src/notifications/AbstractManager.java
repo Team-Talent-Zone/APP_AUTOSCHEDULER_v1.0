@@ -124,10 +124,12 @@ public class AbstractManager {
 				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
 
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("name",username);
+		jsonObj.put("name",Config.EMAIL_SENT_FROMUSER_DEV);
 		jsonObj.put("firstname",firstname);
-		
-		//jsonObj.put("error", error);
+		jsonObj.put("username",username);
+		jsonObj.put("eventname",error);
+		jsonObj.put("senton", getCurrentDateInNewFormat());
+		jsonObj.put("sentby",Config.NOTIFICATION_SENTBY);
 		util.setTemplatedynamicdata(jsonObj.toString());
 		sendEmail(util);
 	}
