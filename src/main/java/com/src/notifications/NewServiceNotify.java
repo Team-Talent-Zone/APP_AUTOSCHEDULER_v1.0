@@ -20,7 +20,7 @@ import com.src.pojo.Util;
 public class NewServiceNotify extends AbstractManager {
 
 	public static void TriggerNewServiceRelatedAutoGenEmail() throws JSONException {
-		// WhenNewServiceIsOnboardedOnPlatform();
+		WhenNewServiceIsOnboardedOnPlatform();
 		WhenNewServiceIsCreatedForCBUUsers();
 	}
 

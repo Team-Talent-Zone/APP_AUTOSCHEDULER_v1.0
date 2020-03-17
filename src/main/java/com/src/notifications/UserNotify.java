@@ -19,6 +19,10 @@ public class UserNotify extends AbstractManager {
 	public static void TriggerUserRelatedAutoGenEmail() throws JSONException {
 		WhenFUProfileNotCompleted();
 		WhenPwdRecoveryIsNeeded();
+		
+		// have to implement the code , when Fu are rejected in system  for the background verification process . this should send email based on decisionon + 1 
+		// have to implement the code , when Fu are approved in system  for the background verification process . this should send email based on decisionon + today 
+
 	}
 
 	/*
