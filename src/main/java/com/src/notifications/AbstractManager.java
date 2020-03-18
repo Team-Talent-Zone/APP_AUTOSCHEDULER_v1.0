@@ -38,7 +38,7 @@ public class AbstractManager {
 	}
 
 	protected static HttpHeaders getHeaders() {
-		String plainCredentials = Config.REST_USERNAME_DEV + ":" + Config.REST_PASSWORD_DEV;
+		String plainCredentials = Config.REST_USERNAME_DEV + ":" + Config.REST_PSWD_DEV;
 		String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
 
 		HttpHeaders headers = new HttpHeaders();

@@ -8,7 +8,7 @@ public class Config {
 	
 	public final static String REST_USERNAME_DEV = "restservicebasicauthuser";
 
-	public final static String REST_PASSWORD_DEV = "TL#2017@REST*832463$#";
+	public final static String REST_PSWD_DEV = "TL#2017@REST*832463$#";
 
 	public final static String EMAIL_SENT_FROMUSER_DEV = "team.spprt2019@gmail.com";
 
@@ -61,7 +61,7 @@ public class Config {
 	 * The below are all the service api call path
 	 */
 
-	public final static String APICALL_GETUSERDETAILSBYRECOVERYPASSWORD = "getUserByRecoveryPwd";
+	public final static String APICALL_GETUSERDETAILSBYRECOVERYPSWD = "getUserByRecoveryPwd";
 	
 	public final static String APICALL_GETUSERSERVICEPENDINGPAYMENT="getUserServicePendingPayment";
 	

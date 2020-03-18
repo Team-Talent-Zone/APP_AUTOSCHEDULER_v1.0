@@ -13,11 +13,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Start {
 
 	final static Logger logger = LoggerFactory.getLogger(Start.class);
-	protected static DateFormat dateFormatPrint = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
 	@SuppressWarnings("resource")
 	public static void main(String args[]) {
-
+		DateFormat dateFormatPrint = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		dateFormatPrint.setTimeZone(TimeZone.getTimeZone("IST"));
 		logger.debug("=======Inside MainScheduler Class : autoRun Method : Start At : ========"
 				+ dateFormatPrint.format(new Date()));

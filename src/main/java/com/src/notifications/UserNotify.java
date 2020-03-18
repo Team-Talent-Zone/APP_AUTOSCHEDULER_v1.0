@@ -36,7 +36,7 @@ public class UserNotify extends AbstractManager {
 		int templateId;
 
 		ResponseEntity<ArrayList<User>> usersList = getUserDetailsByAPICall(
-				Config.APICALL_GETUSERDETAILSBYRECOVERYPASSWORD);
+				Config.APICALL_GETUSERDETAILSBYRECOVERYPSWD);
 		ResponseEntity<LookUpTemplate> cbuTemplateObject = getTemplateDetailsByShortKey(
 				Config.EMAIL_SHORTKEY_FU_WHENUSERNOTLOGINYET);
 		ResponseEntity<LookUpTemplate> fuTemplateObject = getTemplateDetailsByShortKey(
