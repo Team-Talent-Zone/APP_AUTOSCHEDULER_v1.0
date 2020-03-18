@@ -15,17 +15,30 @@ import com.src.pojo.User;
 import com.src.pojo.UserServiceDetails;
 import com.src.pojo.Util;
 
-/*
- * this class will have methods which will send emails to the Users related to Payments.
+/**
+ * This <code> PaymentNotify</code> class will have methods which will send
+ * emails to the Users related to Payments.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
  */
 public class PaymentNotify extends AbstractManager {
 
+	/**
+	 * This is static method for Generating the Email Auto Scheduler Service.
+	 * 
+	 * @throws JSONException
+	 */
 	public static void TriggerPaymentRelatedAutoGenEmail() throws JSONException {
 		WhenCBUUserPaymentIsPending();
 	}
 
-	/*
-	 * this method is for getting User Details from RestAPI by particular UserID
+	/**
+	 * This method is for getting User Details from RestAPI by particular UserID
+	 * 
+	 * @param userId
+	 * @param apipath
 	 */
 	private static ResponseEntity<User> getUserDetailsByUserId(int userId, String apipath) {
 		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/" + userId + "/", HttpMethod.GET,
@@ -33,9 +46,11 @@ public class PaymentNotify extends AbstractManager {
 				});
 	}
 
-	/*
-	 * this method sends email to CBU users who have not completed payment for the
+	/**
+	 * This method sends email to CBU users who have not completed payment for the
 	 * services.
+	 * 
+	 * @throws JSONException
 	 */
 	private static void WhenCBUUserPaymentIsPending() throws JSONException {
 		ResponseEntity<ArrayList<UserServiceDetails>> usersList = getUserServicePendingPayment(

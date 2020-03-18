@@ -2,27 +2,25 @@ package com.src.pojo;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
+/**
+ * The <code> Util </code> class defines Pojo for Email Service which runs in
+ * AutoScheduler functionality .
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
+ */
 public class Util implements Serializable {
-
+	private static final long serialVersionUID = -1283440256056600512L;
 	private String fromuser;
-
 	private String touser;
-
 	private String subject;
-
 	private String body;
-
 	private String templatedynamicdata;
-
 	private String templateurl;
-	
 	private int lastreturncode;
-	
 	private String lastserverresponse;
-	
 	private String preferlang;
-	
 	private String translateresp;
 
 	public String getFromuser() {
@@ -104,6 +102,4 @@ public class Util implements Serializable {
 	public void setTranslateresp(String translateresp) {
 		this.translateresp = translateresp;
 	}
-	
-	
 }

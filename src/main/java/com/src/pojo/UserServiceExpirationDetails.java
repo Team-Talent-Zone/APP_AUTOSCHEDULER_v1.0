@@ -2,28 +2,25 @@ package com.src.pojo;
 
 import java.io.Serializable;
 
+/**
+ * The <code> UserServiceExpirationDetails </code> class defines Pojo for Email
+ * User Service Expiration Details in AutoScheduler functionality .
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
+ */
 public class UserServiceExpirationDetails implements Serializable {
-
 	private static final long serialVersionUID = -4023319338334069924L;
-
 	private int userId;
-
 	private String username;
-
 	private String firstname;
-
 	private String lastname;
-
 	private String createdon;
-
 	private String createdby;
-
 	private String servicestarton;
-
 	private String serviceendon;
-
 	private String name;
-
 	private String preferlang;
 
 	public int getUserId() {
@@ -105,5 +102,4 @@ public class UserServiceExpirationDetails implements Serializable {
 	public void setPreferlang(String preferlang) {
 		this.preferlang = preferlang;
 	}
-
 }

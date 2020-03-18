@@ -2,36 +2,28 @@ package com.src.pojo;
 
 import java.io.Serializable;
 
-public class UserBiz implements Serializable  {
-
-	private static final long serialVersionUID = 1L;
-
+/**
+ * The <code> UserBiz </code> class defines managed beans which provides
+ * functionality on the <code>User Biz</code> Details.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ */
+public class UserBiz implements Serializable {
+	private static final long serialVersionUID = 6883750110199945119L;
 	private Integer Id;
-
 	private int userId;
-	
 	private String bizname;
-
 	private String biztype;
-
 	private String bizwebsite;
-
 	private String abtbiz;
-
 	private String purposeofsignup;
-
 	private String designation;
-	
 	private String streetAddress;
-	
 	private String city;
-	
 	private String state;
-	
 	private String country;
-	
 	private String zipcode;
-
 	private String fulladdress;
 
 	public Integer getId() {
@@ -146,12 +138,8 @@ public class UserBiz implements Serializable  {
 		this.fulladdress = fulladdress;
 	}
 
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	 
-
-	
 }

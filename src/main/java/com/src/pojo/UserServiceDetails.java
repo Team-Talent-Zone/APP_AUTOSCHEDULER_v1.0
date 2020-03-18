@@ -2,32 +2,27 @@ package com.src.pojo;
 
 import java.io.Serializable;
 
+/**
+ * The <code> UserServiceDetails </code> class defines managed beans which
+ * provides functionality on the <code>User Service Details</code> Details.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ */
 public class UserServiceDetails implements Serializable {
-	
 	private static final long serialVersionUID = 6152024827037015930L;
-
 	private Integer serviceId;
-
 	private Integer ourserviceId;
-
 	private Integer userId;
-
 	private String createdBy;
-
 	private String createdOn;
-
 	private boolean isActive;
-
 	private String reasonOfUnSubscribe;
-
 	private String servicePackName;
-
 	private String status;
-
 	private String serviceStartOn;
-
 	private String serviceEndOn;
-	
+
 	public Integer getServiceId() {
 		return serviceId;
 	}
@@ -115,6 +110,5 @@ public class UserServiceDetails implements Serializable {
 	public void setServiceEndOn(String serviceEndOn) {
 		this.serviceEndOn = serviceEndOn;
 	}
-
 
 }

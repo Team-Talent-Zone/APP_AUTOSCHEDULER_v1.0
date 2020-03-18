@@ -14,18 +14,30 @@ import com.src.pojo.NewService;
 import com.src.pojo.User;
 import com.src.pojo.Util;
 
-/*
- * this class will have methods which will send emails to the Users related to any New Services.
+/**
+ * This <code>NewServiceNotify</code>class will have methods which will send
+ * emails to the Users related to any New Services.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
  */
 public class NewServiceNotify extends AbstractManager {
-
+	/**
+	 * This is static method for Generating the Email Auto Scheduler Service.
+	 * 
+	 * @throws JSONException
+	 */
 	public static void TriggerNewServiceRelatedAutoGenEmail() throws JSONException {
 		WhenNewServiceIsOnboardedOnPlatform();
 		WhenNewServiceIsCreatedForCBUUsers();
 	}
 
-	/*
-	 * this method is for getting User Details from RestAPI by particular UserID.
+	/**
+	 * This method is for getting User Details from RestAPI by particular UserID.
+	 * 
+	 * @param userId
+	 * @param apipath
 	 */
 	private static ResponseEntity<User> getUserDetailsByUserId(int userId, String apipath) {
 		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/" + userId + "/", HttpMethod.GET,
@@ -33,8 +45,10 @@ public class NewServiceNotify extends AbstractManager {
 				});
 	}
 
-	/*
-	 * this method sends email to CBA users when new Service is created.
+	/**
+	 * This method sends email to CBA users when new Service is created.
+	 * 
+	 * @throws JSONException
 	 */
 	private static void WhenNewServiceIsCreatedForCBUUsers() throws JSONException {
 
@@ -47,7 +61,6 @@ public class NewServiceNotify extends AbstractManager {
 			for (NewService user : usersList.getBody()) {
 				ResponseEntity<User> usersDetails = getUserDetailsByUserId(user.getUserId(),
 						Config.APICALL_GETUSERSBYUSERID);
-									
 				try {
 					Util util = createNewUtilEntityObj(usersDetails.getBody().getUsername(),
 							Config.EMAIL_SUBJECT_CBU_WHENSERVICEISGETTINGEXPIRED,
@@ -73,12 +86,15 @@ public class NewServiceNotify extends AbstractManager {
 		}
 	}
 
+	/**
+	 * WhenNewServiceIsOnboardedOnPlatform- Method to make Service on Board.
+	 * 
+	 * @throws JSONException
+	 */
 	private static void WhenNewServiceIsOnboardedOnPlatform() throws JSONException {
-
 		/*
 		 * Replace with the api url path
 		 */
-
 		ResponseEntity<ArrayList<NewService>> newservicelist = restTemplate.exchange(
 				Config.REST_URL + "/" + Config.APICALL_GETNEWSERVICEDETAILSCREATED, HttpMethod.GET,
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<NewService>>() {

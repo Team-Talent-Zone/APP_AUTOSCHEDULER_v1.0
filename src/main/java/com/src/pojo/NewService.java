@@ -1,42 +1,33 @@
 package com.src.pojo;
 
 import java.io.Serializable;
- 
+
+/**
+ * The <code> NewService </code> class defines managed beans which provides
+ * functionality on the <code>New Service</code> Details.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ */
 public class NewService implements Serializable {
-	private static final long serialVersionUID = 178635312682419598L;
-
+	private static final long serialVersionUID = 920650801128743528L;
 	private Integer ourserviceId;
-
 	private String name;
-
 	private String domain;
-
 	private String category;
-
 	private boolean isActive;
-
 	private String description;
-
 	private String fullContent;
-
 	private String imageUrl;
-
 	private String createdBy;
-
 	private String createdOn;
-
 	private String updatedOn;
-
 	private String updatedBy;
-
 	private boolean isUpgrade;
-
 	private String validPeriod;
-
 	private Float amount;
-	
 	private int userId;
-	
+
 	public int getUserId() {
 		return userId;
 	}
@@ -164,7 +155,4 @@ public class NewService implements Serializable {
 	public void setAmount(Float amount) {
 		this.amount = amount;
 	}
-
-
-	
 }

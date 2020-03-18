@@ -2,38 +2,29 @@ package com.src.pojo;
 
 import java.io.Serializable;
 
+/**
+ * The <code> User </code> class defines managed beans which provides
+ * functionality on the <code>User</code> Details.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ */
 public class User implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -2541818306566157683L;
 	private Integer userId;
-
 	private String username;
-
 	private String password;
-
 	private boolean isactive;
-
 	private String firstname;
-
 	private String lastname;
-
 	private boolean isrecoverypwd;
-
 	private String reasonofdeactivation;
-
 	private String createdon;
-
 	private String createdby;
-
 	private String updateby;
-
 	private String updatedon;
-	
 	private String preferlang;
-
 	private UserRole userroles;
-
 	private UserBiz userbizdetails;
 
 	public Integer getUserId() {

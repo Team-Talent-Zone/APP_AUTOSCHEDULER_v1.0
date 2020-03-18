@@ -10,18 +10,25 @@ import com.src.notifications.PaymentNotify;
 import com.src.notifications.UserNotify;
 import com.src.notifications.UserServiceNotify;
 
+/**
+ * The <code> MainScheduler </code> class defines to Run AutoScheduler
+ * functionality .
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
+ */
 public class MainScheduler {
-
 	final Logger logger = LoggerFactory.getLogger(MainScheduler.class);
 
-	/*
-	 * this is a method which will be automatically runned according to give time mentioned in task-Scheduler(from scheduler.xml).	
+	/**
+	 * This is a method which will be automatically runned according to give time
+	 * mentioned in task-Scheduler(from scheduler.xml).
 	 */
 	public void autoRun() {
 		try {
-
 			UserNotify.TriggerUserRelatedAutoGenEmail();
-		    NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
+			NewServiceNotify.TriggerNewServiceRelatedAutoGenEmail();
 			PaymentNotify.TriggerPaymentRelatedAutoGenEmail();
 			UserServiceNotify.TriggerUserServiceRelatedAutoGenEmail();
 

@@ -11,20 +11,30 @@ import com.src.pojo.LookUpTemplate;
 import com.src.pojo.UserServiceExpirationDetails;
 import com.src.pojo.Util;
 
-
-/*
- * this class will have methods which will send emails to the Users related to User Services.
+/**
+ * This<code>UserServiceNotify </code> class will have methods which will send
+ * emails to the Users related to User Services.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
  */
-public class UserServiceNotify extends AbstractManager{
-	
+public class UserServiceNotify extends AbstractManager {
+	/**
+	 * This is static method for Triggering the related Auto Scheduler Service.
+	 * 
+	 * @throws JSONException
+	 */
 	public static void TriggerUserServiceRelatedAutoGenEmail() throws JSONException {
-		// Rest API URL -> getUserServiceExpirationDetails & getFUOnServiceExpirationDetails
+		// Rest API URL -> getUserServiceExpirationDetails &
+		// getFUOnServiceExpirationDetails
 		WhenCBAUserServiceGettingExpired();
 		WhenFUUserServiceGettingExpired();
 	}
-	
+
 	/**
 	 * This method sends the mail for CBA users whose services is getting expired.
+	 * 
 	 * @throws JSONException
 	 */
 	private static void WhenCBAUserServiceGettingExpired() throws JSONException {
@@ -43,8 +53,8 @@ public class UserServiceNotify extends AbstractManager{
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("firstname", user.getFirstname());
 					jsonObj.put("companyname", Config.COMPANY_NAME);
-					jsonObj.put("servicepackname",user.getName());
-					jsonObj.put("platformURL",Config.UI_URL);
+					jsonObj.put("servicepackname", user.getName());
+					jsonObj.put("platformURL", Config.UI_URL);
 
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
@@ -52,14 +62,15 @@ public class UserServiceNotify extends AbstractManager{
 						saveNotificationDetails(user.getUserId(), cbuTemplateObject.getBody().getTemplateid());
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
+					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(), user.getFirstname(), e.toString());
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * This method sends the mail for FU users whose services is getting expired.
+	 * 
 	 * @throws JSONException
 	 */
 	private static void WhenFUUserServiceGettingExpired() throws JSONException {
@@ -78,8 +89,8 @@ public class UserServiceNotify extends AbstractManager{
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("firstname", user.getFirstname());
 					jsonObj.put("companyname", Config.COMPANY_NAME);
-					jsonObj.put("servicepackname",user.getName());
-					jsonObj.put("platformURL",Config.UI_URL);
+					jsonObj.put("servicepackname", user.getName());
+					jsonObj.put("platformURL", Config.UI_URL);
 
 					util.setTemplatedynamicdata(jsonObj.toString());
 					ResponseEntity<Util> emailresponse = sendEmail(util);
@@ -87,7 +98,7 @@ public class UserServiceNotify extends AbstractManager{
 						saveNotificationDetails(user.getUserId(), fuTemplateObject.getBody().getTemplateid());
 					}
 				} catch (Exception e) {
-					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(),user.getFirstname(), e.toString());
+					NotifyToCSSTPlatFormAdminAboutError(user.getUsername(), user.getFirstname(), e.toString());
 				}
 			}
 		}

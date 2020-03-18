@@ -28,6 +28,13 @@ import com.src.pojo.UserServiceDetails;
 import com.src.pojo.UserServiceExpirationDetails;
 import com.src.pojo.Util;
 
+/**
+ * The <code> AbstractManager </code> class defines AutoScheduler functionality.
+ * 
+ * @author Ishaq
+ * @version 1.0
+ *
+ */
 public class AbstractManager {
 
 	protected static Logger loggerAbstract = LoggerFactory.getLogger(UserNotify.class);
@@ -37,6 +44,9 @@ public class AbstractManager {
 		return new HttpEntity<String>(getHeaders());
 	}
 
+	/**
+	 * Get Header Method is to get Http Header details.
+	 */
 	protected static HttpHeaders getHeaders() {
 		String plainCredentials = Config.REST_USERNAME_DEV + ":" + Config.REST_PSWD_DEV;
 		String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
@@ -47,6 +57,14 @@ public class AbstractManager {
 		return headers;
 	}
 
+	/**
+	 * createNewUtilEntityObj -This Method is to create New Util Entity Object.
+	 * 
+	 * @param emailToUser
+	 * @param emailSubject
+	 * @param templateURL
+	 * @param preferlang
+	 */
 	protected static Util createNewUtilEntityObj(String emailToUser, String emailSubject, String templateURL,
 			String preferlang) {
 		Util utilEntity = new Util();
@@ -58,45 +76,84 @@ public class AbstractManager {
 		return utilEntity;
 	}
 
+	/**
+	 * ResponseEntity -This method is written to get Response Entity Details.
+	 * 
+	 * @param shortKey
+	 * @return
+	 */
 	protected static ResponseEntity<LookUpTemplate> getTemplateDetailsByShortKey(String shortKey) {
-		return restTemplate.exchange(Config.REST_URL + "/getLookupTemplateEntityByShortkey/" + shortKey,
-				HttpMethod.GET, getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
+		return restTemplate.exchange(Config.REST_URL + "/getLookupTemplateEntityByShortkey/" + shortKey, HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
 				});
 	}
 
-	
-	
+	/**
+	 * ResponseEntity-getUserDetailsByAPICall -This method is written to get
+	 * Response Entity Details.
+	 * 
+	 * @param apipath
+	 */
 	protected static ResponseEntity<ArrayList<User>> getUserDetailsByAPICall(String apipath) {
-		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/" , HttpMethod.GET,
-				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<User>>() {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET, getHttpEntityWithHeaders(),
+				new ParameterizedTypeReference<ArrayList<User>>() {
 				});
 	}
-		
-	
-	protected static ResponseEntity<ArrayList<UserServiceExpirationDetails>> getServiceDetailsByAPICall(String apipath) {
-		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
-				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<UserServiceExpirationDetails>>() {
-				});
-	}
-	
-	protected static ResponseEntity<ArrayList<NewService>> getNewServiceDetailsByAPICall(String apipath) {
-		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
-				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<NewService>>() {
-				});
-	}
-	protected static ResponseEntity<ArrayList<UserServiceDetails>> getUserServicePendingPayment(String apipath) {
-		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET,
-				getHttpEntityWithHeaders(), new ParameterizedTypeReference<ArrayList<UserServiceDetails>>() {
-				});
-	}
-	
 
+	/**
+	 * ResponseEntity-getServiceDetailsByAPICall -This method is written to get
+	 * Response Entity Details.
+	 * 
+	 * @param apipath
+	 */
+	protected static ResponseEntity<ArrayList<UserServiceExpirationDetails>> getServiceDetailsByAPICall(
+			String apipath) {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET, getHttpEntityWithHeaders(),
+				new ParameterizedTypeReference<ArrayList<UserServiceExpirationDetails>>() {
+				});
+	}
+
+	/**
+	 * ResponseEntity-getNewServiceDetailsByAPICall -This method is written to get
+	 * Response Entity Details.
+	 * 
+	 * @param apipath
+	 */
+	protected static ResponseEntity<ArrayList<NewService>> getNewServiceDetailsByAPICall(String apipath) {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET, getHttpEntityWithHeaders(),
+				new ParameterizedTypeReference<ArrayList<NewService>>() {
+				});
+	}
+
+	/**
+	 * ResponseEntity-getUserServicePendingPayment -This method is written to get
+	 * Response Entity Details.
+	 * 
+	 * @param apipath
+	 */
+	protected static ResponseEntity<ArrayList<UserServiceDetails>> getUserServicePendingPayment(String apipath) {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET, getHttpEntityWithHeaders(),
+				new ParameterizedTypeReference<ArrayList<UserServiceDetails>>() {
+				});
+	}
+
+	/**
+	 * ResponseEntity-sendEmail -This method is written to get Response Entity
+	 * Details.
+	 * 
+	 * @param apipath
+	 */
 	protected static ResponseEntity<Util> sendEmail(Util util) {
 		HttpEntity<Util> emailResponseEntity = new HttpEntity<Util>(util, getHeaders());
-		return restTemplate.exchange(Config.REST_URL + "/sendemail/", HttpMethod.POST, emailResponseEntity,
-				Util.class);
+		return restTemplate.exchange(Config.REST_URL + "/sendemail/", HttpMethod.POST, emailResponseEntity, Util.class);
 	}
 
+	/**
+	 * This Method is for Notification Details.
+	 * 
+	 * @param userId
+	 * @param templateId
+	 */
 	protected static void saveNotificationDetails(int userId, int templateId) {
 		UserNotification notification = new UserNotification();
 		notification.setUserid(userId);
@@ -109,27 +166,41 @@ public class AbstractManager {
 				requestHeaderWithUserNotificationObject, UserNotification.class);
 	};
 
+	/**
+	 * This Method is to get Current Date in New Format.
+	 * 
+	 * @return Date
+	 */
 	private static String getCurrentDateInNewFormat() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		return dateFormat.format(cal.getTime());
 	}
 
-	protected static void NotifyToCSSTPlatFormAdminAboutError(String username , String firstname, String error) throws JSONException {
+	/**
+	 * This Method is to get Notification to Admin about the Error.
+	 * 
+	 * @param username
+	 * @param firstname
+	 * @param error
+	 * @throws JSONException
+	 */
+	protected static void NotifyToCSSTPlatFormAdminAboutError(String username, String firstname, String error)
+			throws JSONException {
 
 		ResponseEntity<LookUpTemplate> errorTemplateObject = getTemplateDetailsByShortKey(
 				Config.EMAIL_SHORTKEY_SOMETHINGWENTWRONG);
 		Util util = createNewUtilEntityObj(Config.EMAIL_SENT_FROMUSER_DEV,
-				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + username,
-				errorTemplateObject.getBody().getUrl(), Config.DEFAULT_PREFEREDLANG);
+				Config.EMAIL_SUBJECT_SOMETHINGWENTWRONG + " :" + username, errorTemplateObject.getBody().getUrl(),
+				Config.DEFAULT_PREFEREDLANG);
 
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("name",Config.EMAIL_SENT_FROMUSER_DEV);
-		jsonObj.put("firstname",firstname);
-		jsonObj.put("username",username);
-		jsonObj.put("eventname",error);
+		jsonObj.put("name", Config.EMAIL_SENT_FROMUSER_DEV);
+		jsonObj.put("firstname", firstname);
+		jsonObj.put("username", username);
+		jsonObj.put("eventname", error);
 		jsonObj.put("senton", getCurrentDateInNewFormat());
-		jsonObj.put("sentby",Config.NOTIFICATION_SENTBY);
+		jsonObj.put("sentby", Config.NOTIFICATION_SENTBY);
 		util.setTemplatedynamicdata(jsonObj.toString());
 		sendEmail(util);
 	}
