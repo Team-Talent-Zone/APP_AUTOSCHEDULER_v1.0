@@ -106,7 +106,7 @@ public class UserNotify extends AbstractManager {
 		ResponseEntity<LookUpTemplate> templatedetails = getTemplateDetailsByShortKey(
 				Config.EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED);
 
-		if (usersList != null) {
+		if (usersList.getBody() != null) {
 			for (User user : usersList.getBody()) {
 				try {
 					Util util = createNewUtilEntityObj(user.getUsername(), Config.EMAIL_SUBJECT_FU_PROFILENOTCOMPLETED,
