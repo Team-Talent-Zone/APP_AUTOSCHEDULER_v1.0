@@ -29,7 +29,6 @@ public class Config {
 	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen6";
 	public final static String EMAIL_SHORTKEY_CBA_WHENSERVICEGETTINGEXPIRED = "autogen7";
 	public final static String EMAIL_SHORTKEY_CBA_WHENPAYMENTISPENDING = "autogen9";
-	public final static String EMAIL_SHORTKEY_CBA_WHENPAYMENTISPAIDTOFU = "autogen10";
 
 	/*
 	 * The below are template email subjects
