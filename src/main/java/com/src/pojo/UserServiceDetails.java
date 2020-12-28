@@ -13,7 +13,7 @@ public class UserServiceDetails implements Serializable {
 	private static final long serialVersionUID = 6152024827037015930L;
 	private Integer serviceId;
 	private Integer ourserviceId;
-	private Integer userId;
+	private Integer userid;
 	private String createdBy;
 	private String createdOn;
 	private boolean isActive;
@@ -39,12 +39,12 @@ public class UserServiceDetails implements Serializable {
 		this.ourserviceId = ourserviceId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public Integer getUserid() {
+		return userid;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 
 	public String getCreatedBy() {

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.TimeZone;
 
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONException;
@@ -213,8 +214,9 @@ public class AbstractManager {
 	 * 
 	 * @return Date
 	 */
-	private static String getCurrentDateInNewFormat() {
+	protected static String getCurrentDateInNewFormat() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 		Calendar cal = Calendar.getInstance();
 		return dateFormat.format(cal.getTime());
 	}

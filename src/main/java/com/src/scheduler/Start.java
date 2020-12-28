@@ -29,7 +29,7 @@ public class Start {
 	@SuppressWarnings("resource")
 	public static void main(String args[]) {
 		DateFormat dateFormatPrint = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		dateFormatPrint.setTimeZone(TimeZone.getTimeZone("IST"));
+		dateFormatPrint.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
 		logger.debug("=======Inside MainScheduler Class : autoRun Method : Start At : ========"
 				+ dateFormatPrint.format(new Date()));
 
