@@ -97,50 +97,33 @@ public class PaymentNotify extends AbstractManager {
 	private static void getUserAllPendingPaymentOfFreelancer() throws JSONException {
 		ResponseEntity<ArrayList<PaymentToFreelancers>> freelanceList = getUserAllPendingPaymentOfFreelancer(
 				Config.APICALL_GETUSERALLPENIDNGPAYMENTOFFRERELANCER);
-		ResponseEntity<LookUpTemplate> cbuTemplateObject = getTemplateDetailsByShortKey(
-				Config.EMAIL_SHORTKEY_CBA_WHENPAYMENTISPAIDTOFU);
 		if (freelanceList.getBody() != null) {
 			for (PaymentToFreelancers freelanceDetail : freelanceList.getBody()) {
 				ResponseEntity<User> usersDetails = getUserDetailsByUserId(freelanceDetail.getFreelanceuserId(),
 						Config.APICALL_GETUSERSBYUSERID);
 				if (freelanceDetail.getBeneficiaryId() > 0) {
-					FreelancerPaymentInput freelancerPaymentInput = new FreelancerPaymentInput();
-					freelancerPaymentInput.setAmount(Double.valueOf(freelanceDetail.getTofreelanceamount()));
-					freelancerPaymentInput.setBatchId(genRandomAlphaNumeric());
-					freelancerPaymentInput.setBeneficiaryId(freelanceDetail.getFreelanceuserId());
-					ResponseEntity<String> merchantRefId = getReferenceDataByShortKey("mkey");
-					freelancerPaymentInput.setMerchantRefId(merchantRefId.getBody().toString());
-					freelancerPaymentInput.setPurpose("Payment from Company");
-					freelancerPaymentInput.setPaymentType("IMPS");
-					ResponseEntity<PayoutTransferResponse> resp = payment(freelancerPaymentInput);
-					if (resp.getBody().isStatus()) {
-						try {
-							Util util = createNewUtilEntityObj(usersDetails.getBody().getUsername(),
-									Config.EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED,
-									cbuTemplateObject.getBody().getUrl().toString(),
-									usersDetails.getBody().getPreferlang());
-							JSONObject jsonObj = new JSONObject();
-							jsonObj.put("firstname", usersDetails.getBody().getFirstname());
-							jsonObj.put("amount", freelanceDetail.getTofreelanceamount());
-							jsonObj.put("jobId", freelanceDetail.getJobId());
-							jsonObj.put("bizname", freelanceDetail.getBizname());
-							jsonObj.put("companyname", Config.COMPANY_NAME);
-							jsonObj.put("platformURL", Config.UI_URL);
-							util.setTemplatedynamicdata(jsonObj.toString());
-							ResponseEntity<Util> emailresponse = sendEmail(util);
-							if (emailresponse.getBody().getLastreturncode() == 250) {
-								saveNotificationDetails(usersDetails.getBody().getUserId(),
-										cbuTemplateObject.getBody().getTemplateid());
-							}
-
-						} catch (Exception e) {
-							NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
-									usersDetails.getBody().getFirstname(), e.toString());
+					try {
+						FreelancerPaymentInput freelancerPaymentInput = new FreelancerPaymentInput();
+						freelancerPaymentInput.setAmount(Double.valueOf(freelanceDetail.getTofreelanceamount()));
+						freelancerPaymentInput.setBatchId(genRandomAlphaNumeric());
+						freelancerPaymentInput.setBeneficiaryId(freelanceDetail.getFreelanceuserId());
+						ResponseEntity<String> merchantRefId = getReferenceDataByShortKey("mkey");
+						freelancerPaymentInput.setMerchantRefId(merchantRefId.getBody().toString());
+						freelancerPaymentInput.setPurpose("Payment from Company");
+						freelancerPaymentInput.setPaymentType("IMPS");
+						ResponseEntity<PayoutTransferResponse> resp = payment(freelancerPaymentInput);
+						if (resp.getBody().isStatus()) {
+							System.out.println("In Process of paying " + usersDetails.getBody().getUsername()
+									+ " of amount " + freelanceDetail.getTofreelanceamount());
 						}
+					} catch (Exception e) {
+						NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
+								usersDetails.getBody().getFirstname(), e.toString());
 					}
 				} else {
 					NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
-							usersDetails.getBody().getFirstname(), "There is no beneficiary Id for this skilled worker");
+							usersDetails.getBody().getFirstname(),
+							"There is no beneficiary Id for this skilled worker");
 				}
 			}
 		}
