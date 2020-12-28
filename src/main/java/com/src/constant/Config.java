@@ -9,9 +9,9 @@ package com.src.constant;
  */
 public class Config {
 	public final static String REST_URL = "http://localhost:8080/RestAPI";
-	public final static String UI_URL = "http://ec2-3-84-10-123.compute-1.amazonaws.com:3000/";
-	public final static String REST_USERNAME_DEV = "restservicebasicauthuser";
-	public final static String REST_PSWD_DEV = "TL#2017@REST*832463$#";
+	public final static String UI_URL = "http://ec2-35-170-191-222.compute-1.amazonaws.com:3005/";
+	public final static String REST_USERNAME_DEV = "W4UBasicAuthorization";
+	public final static String REST_PSWD_DEV = "W4U#2021@REST*#?dXptq?p9V3WNL!P$#";
 	public final static String EMAIL_SENT_FROMUSER_DEV = "team.spprt2019@gmail.com";
 	public final static String NOTIFICATION_SENTBY = "System";
 	public final static String DEFAULT_PREFEREDLANG = "en";
