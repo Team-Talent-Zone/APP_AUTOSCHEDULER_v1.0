@@ -29,8 +29,8 @@ public class NewServiceNotify extends AbstractManager {
 	 * @throws JSONException
 	 */
 	public static void TriggerNewServiceRelatedAutoGenEmail() throws JSONException {
-		WhenNewServiceIsOnboardedOnPlatform();
-		WhenNewServiceIsCreatedForCBUUsers();
+		//WhenNewServiceIsOnboardedOnPlatform();
+		//WhenNewServiceIsCreatedForCBUUsers();
 	}
 
 	/**
@@ -50,6 +50,7 @@ public class NewServiceNotify extends AbstractManager {
 	 * 
 	 * @throws JSONException
 	 */
+	@SuppressWarnings("unused")
 	private static void WhenNewServiceIsCreatedForCBUUsers() throws JSONException {
 
 		ResponseEntity<ArrayList<NewService>> usersList = getNewServiceDetailsByAPICall(
@@ -91,6 +92,7 @@ public class NewServiceNotify extends AbstractManager {
 	 * 
 	 * @throws JSONException
 	 */
+	@SuppressWarnings("unused")
 	private static void WhenNewServiceIsOnboardedOnPlatform() throws JSONException {
 		/*
 		 * Replace with the api url path

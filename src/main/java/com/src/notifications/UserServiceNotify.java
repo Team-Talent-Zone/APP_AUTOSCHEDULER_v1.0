@@ -29,7 +29,7 @@ public class UserServiceNotify extends AbstractManager {
 		// Rest API URL -> getUserServiceExpirationDetails &
 		// getFUOnServiceExpirationDetails
 		WhenCBAUserServiceGettingExpired();
-		WhenFUUserServiceGettingExpired();
+		//WhenFUUserServiceGettingExpired();
 	}
 
 	/**
@@ -73,6 +73,7 @@ public class UserServiceNotify extends AbstractManager {
 	 * 
 	 * @throws JSONException
 	 */
+	@SuppressWarnings("unused")
 	private static void WhenFUUserServiceGettingExpired() throws JSONException {
 		ResponseEntity<ArrayList<UserServiceExpirationDetails>> usersList = getServiceDetailsByAPICall(
 				Config.APICALL_GETFUUSERDETAILSWHENINCOMPLETEPROFILE);

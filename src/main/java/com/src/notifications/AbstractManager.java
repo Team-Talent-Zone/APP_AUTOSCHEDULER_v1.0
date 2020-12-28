@@ -1,10 +1,13 @@
 package com.src.notifications;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Random;
 
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONException;
@@ -20,8 +23,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.src.constant.Config;
+import com.src.pojo.FreelancerPaymentInput;
 import com.src.pojo.LookUpTemplate;
 import com.src.pojo.NewService;
+import com.src.pojo.PaymentToFreelancers;
+import com.src.pojo.PayoutTransferResponse;
 import com.src.pojo.User;
 import com.src.pojo.UserNotification;
 import com.src.pojo.UserServiceDetails;
@@ -87,6 +93,19 @@ public class AbstractManager {
 				getHttpEntityWithHeaders(), new ParameterizedTypeReference<LookUpTemplate>() {
 				});
 	}
+	
+	/**
+	 * ResponseEntity -This method is written to get Response Entity Details.
+	 * 
+	 * @param shortKey
+	 * @return
+	 */
+	protected static ResponseEntity<String> getReferenceDataByShortKey(String shortKey) {
+		return restTemplate.exchange(Config.REST_URL + "/getReferenceLookupByShortKey/" + shortKey, HttpMethod.GET,
+				getHttpEntityWithHeaders(), new ParameterizedTypeReference<String>() {
+				});
+	}
+
 
 	/**
 	 * ResponseEntity-getUserDetailsByAPICall -This method is written to get
@@ -135,6 +154,29 @@ public class AbstractManager {
 		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET, getHttpEntityWithHeaders(),
 				new ParameterizedTypeReference<ArrayList<UserServiceDetails>>() {
 				});
+	}
+	
+	/**
+	 * ResponseEntity-getUserAllPendingPaymentOfFreelancer -This method is written to get
+	 * Response Entity Details.
+	 * 
+	 * @param apipath
+	 */
+	protected static ResponseEntity<ArrayList<PaymentToFreelancers>> getUserAllPendingPaymentOfFreelancer(String apipath) {
+		return restTemplate.exchange(Config.REST_URL + "/" + apipath + "/", HttpMethod.GET, getHttpEntityWithHeaders(),
+				new ParameterizedTypeReference<ArrayList<PaymentToFreelancers>>() {
+				});
+	}
+	
+	/**
+	 * ResponseEntity-sendEmail -This method is written to get Response Entity
+	 * Details.
+	 * 
+	 * @param apipath
+	 */
+	protected static ResponseEntity<PayoutTransferResponse> payment(FreelancerPaymentInput freelancerPaymentInput) {
+		HttpEntity<FreelancerPaymentInput> emailResponseEntity = new HttpEntity<FreelancerPaymentInput>(freelancerPaymentInput, getHeaders());
+		return restTemplate.exchange(Config.REST_URL + "/payment/", HttpMethod.POST, emailResponseEntity, PayoutTransferResponse.class);
 	}
 
 	/**
@@ -204,5 +246,26 @@ public class AbstractManager {
 		util.setTemplatedynamicdata(jsonObj.toString());
 		sendEmail(util);
 	}
+	
+	/**
+	 * genRandomAlphaNumeric - To get Random Alpha Numeric Data.
+	 * 
+	 * @return Random Data.
+	 */
+	protected static String genRandomAlphaNumeric() {
+		String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		int n = alphabet.length();
+		String result = "";
+		Random r;
+		try {
+			r = SecureRandom.getInstanceStrong();
+			for (int i = 0; i < 10; i++)
+				result = result + alphabet.charAt(r.nextInt(n));
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("Exception in CommonUtilites-genRandomAlphaNumeric():" + e);
+		}
+		return result;
+	}
+
 
 }

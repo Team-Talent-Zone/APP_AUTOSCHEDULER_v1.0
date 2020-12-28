@@ -9,8 +9,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import com.src.constant.Config;
-import com.src.notifications.AbstractManager;
+import com.src.pojo.FreelancerPaymentInput;
 import com.src.pojo.LookUpTemplate;
+import com.src.pojo.PaymentToFreelancers;
+import com.src.pojo.PayoutTransferResponse;
 import com.src.pojo.User;
 import com.src.pojo.UserServiceDetails;
 import com.src.pojo.Util;
@@ -32,6 +34,7 @@ public class PaymentNotify extends AbstractManager {
 	 */
 	public static void TriggerPaymentRelatedAutoGenEmail() throws JSONException {
 		WhenCBUUserPaymentIsPending();
+		getUserAllPendingPaymentOfFreelancer();
 	}
 
 	/**
@@ -80,6 +83,60 @@ public class PaymentNotify extends AbstractManager {
 				} catch (Exception e) {
 					NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
 							usersDetails.getBody().getFirstname(), e.toString());
+				}
+			}
+		}
+	}
+
+	/**
+	 * This method get list of all the freelancers to pay for the job invoice and
+	 * update the transcation id once paid services.
+	 * 
+	 * @throws JSONException
+	 */
+	private static void getUserAllPendingPaymentOfFreelancer() throws JSONException {
+		ResponseEntity<ArrayList<PaymentToFreelancers>> freelanceList = getUserAllPendingPaymentOfFreelancer(
+				Config.APICALL_GETUSERALLPENIDNGPAYMENTOFFRERELANCER);
+		ResponseEntity<LookUpTemplate> cbuTemplateObject = getTemplateDetailsByShortKey(
+				Config.EMAIL_SHORTKEY_CBA_WHENPAYMENTISPAIDTOFU);
+
+		if (freelanceList.getBody() != null) {
+			for (PaymentToFreelancers freelanceDetail : freelanceList.getBody()) {
+				FreelancerPaymentInput freelancerPaymentInput = new FreelancerPaymentInput();
+				freelancerPaymentInput.setAmount(Double.valueOf(freelanceDetail.getTofreelanceamount()));
+				freelancerPaymentInput.setBatchId(genRandomAlphaNumeric());
+				freelancerPaymentInput.setBeneficiaryId(freelanceDetail.getFreelanceuserId());
+				ResponseEntity<String> merchantRefId = getReferenceDataByShortKey("mkey");
+				freelancerPaymentInput.setMerchantRefId(merchantRefId.getBody().toString());
+				freelancerPaymentInput.setPurpose("Payment from Company");
+				freelancerPaymentInput.setPaymentType("IMPS");
+				ResponseEntity<PayoutTransferResponse> resp = payment(freelancerPaymentInput);
+				if (resp.getBody().isStatus()) {
+					ResponseEntity<User> usersDetails = getUserDetailsByUserId(freelanceDetail.getFreelanceuserId(),
+							Config.APICALL_GETUSERSBYUSERID);
+					try {
+						Util util = createNewUtilEntityObj(usersDetails.getBody().getUsername(),
+								Config.EMAIL_SUBJECT_CBU_WHENNEWSERVICE_CREATED,
+								cbuTemplateObject.getBody().getUrl().toString(),
+								usersDetails.getBody().getPreferlang());
+						JSONObject jsonObj = new JSONObject();
+						jsonObj.put("firstname", usersDetails.getBody().getFirstname());
+						jsonObj.put("amount",freelanceDetail.getTofreelanceamount() );
+						jsonObj.put("jobId",freelanceDetail.getJobId());
+						jsonObj.put("bizname",freelanceDetail.getBizname());
+						jsonObj.put("companyname", Config.COMPANY_NAME);
+						jsonObj.put("platformURL", Config.UI_URL);
+						util.setTemplatedynamicdata(jsonObj.toString());
+						ResponseEntity<Util> emailresponse = sendEmail(util);
+						if (emailresponse.getBody().getLastreturncode() == 250) {
+							saveNotificationDetails(usersDetails.getBody().getUserId(),
+									cbuTemplateObject.getBody().getTemplateid());
+						}
+
+					} catch (Exception e) {
+						NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
+								usersDetails.getBody().getFirstname(), e.toString());
+					}
 				}
 			}
 		}

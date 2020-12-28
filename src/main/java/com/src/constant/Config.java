@@ -29,6 +29,7 @@ public class Config {
 	public final static String EMAIL_SHORTKEY_FU_PROFILENOTCOMPLETED = "autogen6";
 	public final static String EMAIL_SHORTKEY_CBA_WHENSERVICEGETTINGEXPIRED = "autogen7";
 	public final static String EMAIL_SHORTKEY_CBA_WHENPAYMENTISPENDING = "autogen9";
+	public final static String EMAIL_SHORTKEY_CBA_WHENPAYMENTISPAIDTOFU = "autogen10";
 
 	/*
 	 * The below are template email subjects
@@ -55,4 +56,8 @@ public class Config {
 	public final static String APICALL_GETUSERSERVICEEXPIRATIONDETAILS = "getUserServiceExpirationDetails";
 	public final static String APICALL_GETFUUSERDETAILSWHENINCOMPLETEPROFILE = "getFUUserDetailsWhenInCompleteProfile";
 	public final static String CLIENT_BUSINESS_ADMINISTRATOR = "CLIENT_BUSINESS_ADMINISTRATOR";
+	public final static String APICALL_GETUSERALLPENIDNGPAYMENTOFFRERELANCER = "getUserAllPendingPaymentOfFreelancer";
+	public final static String APICALL_PAYMENT = "payment";
+
+
 }
