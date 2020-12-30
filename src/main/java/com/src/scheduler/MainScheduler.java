@@ -5,9 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.src.notifications.PaymentNotify;
-//import com.src.notifications.PaymentNotify;
-import com.src.notifications.UserNotify;
-import com.src.notifications.UserServiceNotify;
 
 /**
  * The <code> MainScheduler </code> class defines to Run AutoScheduler

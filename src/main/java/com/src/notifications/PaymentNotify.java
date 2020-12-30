@@ -18,7 +18,6 @@ import com.src.pojo.PayoutTransferResponse;
 import com.src.pojo.User;
 import com.src.pojo.UserServiceDetails;
 import com.src.pojo.Util;
-import com.src.scheduler.Start;
 
 /**
  * This <code> PaymentNotify</code> class will have methods which will send
@@ -41,7 +40,7 @@ public class PaymentNotify extends AbstractManager {
 		logger.info("================The Payment Notify Class is triggered =================="
 				+ getCurrentDateInNewFormat());
 
-		// WhenCBUUserPaymentIsPending();
+		WhenCBUUserPaymentIsPending();
 		getUserAllPendingPaymentOfFreelancer();
 		logger.info("================The Payment Notify Class is Ended On =================="
 				+ getCurrentDateInNewFormat());
@@ -73,6 +72,8 @@ public class PaymentNotify extends AbstractManager {
 				Config.EMAIL_SHORTKEY_CBA_WHENPAYMENTISPENDING);
 
 		if (usersList.getBody() != null) {
+			logger.info("======Total Number of Client Bussines Adminstrator Pending Payments =========="
+					+ usersList.getBody().size());
 			for (UserServiceDetails userServiceDetails : usersList.getBody()) {
 				ResponseEntity<User> usersDetails = getUserDetailsByUserId(userServiceDetails.getUserid(),
 						Config.APICALL_GETUSERSBYUSERID);
@@ -121,13 +122,16 @@ public class PaymentNotify extends AbstractManager {
 						freelancerPaymentInput.setBatchId(genRandomAlphaNumeric());
 						freelancerPaymentInput.setBeneficiaryId(freelanceDetail.getBeneficiaryId());
 						ResponseEntity<String> merchantRefId = getReferenceDataByShortKey("mkey");
-						freelancerPaymentInput.setMerchantRefId(merchantRefId.getBody().toString());
+						freelancerPaymentInput.setMerchantRefId(merchantRefId.getBody().toString().replace("\"", ""));
 						freelancerPaymentInput.setPurpose("Payment from Company");
 						freelancerPaymentInput.setPaymentType("IMPS");
 						ResponseEntity<PayoutTransferResponse> resp = payment(freelancerPaymentInput);
-						if (resp.getBody().isStatus()) {
-							logger.info("======Pending Process to Pay " + usersDetails.getBody().getUsername()
-									+ " of amount " + freelanceDetail.getTofreelanceamount() + "======");
+						if (!resp.getBody().isStatus()) {
+							String status = "======Pending Process to Pay " + usersDetails.getBody().getUsername()
+									+ " of amount " + freelanceDetail.getTofreelanceamount() + "======";
+							logger.info(status);
+							NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
+									usersDetails.getBody().getFirstname(), status);
 						}
 					} catch (Exception e) {
 						NotifyToCSSTPlatFormAdminAboutError(usersDetails.getBody().getUsername(),
